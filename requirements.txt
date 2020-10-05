@@ -1,0 +1,15 @@
+asgiref==3.2.10
+certifi==2020.6.20
+chardet==3.0.4
+Django==3.1.1
+django-cors-middleware==1.5.0
+django-oauth-toolkit==1.3.2
+idna==2.10
+oauthlib==3.1.0
+Pillow==7.2.0
+psycopg2 @ file:///opt/concourse/worker/volumes/live/c8a4b965-959f-4e6c-7792-4aa881d63c8d/volume/psycopg2_1594305121341/work
+psycopg2-binary==2.8.6
+pytz==2020.1
+requests==2.24.0
+sqlparse==0.3.1
+urllib3==1.25.10
