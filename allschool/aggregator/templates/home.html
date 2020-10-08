@@ -1,0 +1,14 @@
+{% load socialaccount %}
+
+    {% if user.is_authenticated %}
+        <p>Hello {{ user.socialaccount_set.all.0.extra_data.name }}</p>
+        <p> You joined on {{ user.socialaccount_set.all.0.date_joined}} and your last login was {{ user.socialaccount_set.all.0.last_login}}</p>
+
+        <a href="{% url 'logout' %}">Logout of Your Account</a>
+
+    {% else %}
+        <p>You are not yet logged in!</p>
+        <a href="{% provider_login_url 'google' %}">Login with Google</a>
+
+    {% endif %}
+
