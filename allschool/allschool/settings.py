@@ -38,7 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'aggregator',
+
+    #additional apps for allauth
+    'django.contrib.sites',   
+    'allauth',   
+    'allauth.account',   
+    'allauth.socialaccount',   
+
+    ##for google
+    'allauth.socialaccount.providers.google'
 ]
+
+SITE_ID = 3
+LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,7 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.contrib.messages.context_processors.messages',                
             ],
         },
     },
@@ -77,14 +89,13 @@ WSGI_APPLICATION = 'allschool.wsgi.application'
 
 ## currently set up to use sqlite3, but will migrate to postgres
 ## PLEASE DO NOT EDIT
+
+
+##note to self, revert before pushing to branch
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST':'127.0.0.1',
-        'PORT':'5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -106,6 +117,25 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+##authentication for allauth
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+ ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 
 # Internationalization
