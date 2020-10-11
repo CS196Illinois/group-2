@@ -4,26 +4,36 @@ from django.db import models
 # Example:
 #     name : Discussion
 #     hyperlink : zoom.com/here 
-class CourseFields(models.Models):
+class CourseField(models.Model):
     name = models.CharField(max_length=20)
     hyperlink = models.URLField()
 
     def __str__(self):
         return self.name
 
+class Instructor(models.Model):
+    last_name = models.CharField(max_length=40)
+    first_name = models.CharField(max_length=40)
+    department = models.CharField(max_length=3, help_text="Instructor's department. e.g. CS, ECE, ENG")
+
+    def __str__(self):
+        return f'({self.department}) {self.first_name}, {self.last_name}'
+
 
 class Course(models.Model):
     # Course Descriptors
     title = models.CharField(max_length=25)
-    course_number = models(max_length=10, blank=True)
-    instructor = models.CharField(max_length=30, blank=True)
-    section = models(max_length=5, blank=True)
+    course_number = models.CharField(max_length=10, blank=True)
+    instructor = models.ForeignKey(Instructor, on_delete=models.SET_NULL, null=True)
+    section = models.CharField(max_length=5, blank=True)
     created_on = models.DateField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    fields = models.ForeignKey(  # This is where we'll have the fields like discussion links, lab links, etc.
-        CourseFields,
-        on_delete=models.CASCADE, # ensure that if the course is deleted, the fields will also be deleted.
+    fields = models.ManyToManyField(  # This is where we'll have the fields like discussion links, lab links, etc.
+        CourseField,
     )
+
+    class Meta:
+        ordering = ['title']
     
     def __str__(self):
         return self.title
