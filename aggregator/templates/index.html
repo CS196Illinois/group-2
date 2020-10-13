@@ -1,14 +1,25 @@
 {% extends 'base_generic.html' %}
+{% load socialaccount %}
+
 
 {% block content %}
 <div class="jumbotron text-center">
     <h1 class="jumbotron-heading">All School</h1>
     <p class="lead text-muted">All of Your School at Your Fingertips</p>
     <p><em>developed by: <strong>Serious Cereals</strong></em></p>
-    <p>
-        <a href="#" class="btn btn-primary my-2">Log In</a>
-        <a href="#" class="btn btn-primary my-2">Sign Up</a>
-    </p>
+    {% if user.is_authenticated %}
+        <p>
+            <p>
+                <strong> {{ user.socialaccount_set.all.0.extra_data.name }} </strong>
+                <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt = "Google Profile Picture" width ="50" height = "50" class="img-thumbnail">
+                <a href="{% url 'logout' %}" class="btn btn-primary my-2">Log Out</a>
+            </p>
+        </p>
+    {% else %}
+        <p>
+            <a href="{% provider_login_url 'google' %}" class="btn btn-primary my-2">Log In With Google</a>
+        </p>
+    {% endif %}
 </div>
 <div class="container">
     <h1>Current Courses</h1>

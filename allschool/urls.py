@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('aggregator/',include('aggregator.urls')),
     path('', RedirectView.as_view(url='aggregator/')),
+    path('accounts/', include('allauth.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
