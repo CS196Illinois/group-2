@@ -11,8 +11,8 @@ Social Login Setup Steps:
 1. Go to the admin page and add a new "Social application" under the "Social Accounts" tab.
 2. Choose "Google" as the provider in the dropdown box
 3. Name it "Google API" or something else relevant
-4. Enter "881059615262-e16520q9jjlsntlhjb9uts638u5kpk6u.apps.googleusercontent.com" as the client id (do not include the quotations)
-5. Enter "4If8H_4FlFTIemTdziGwHY8B" as the secret key (do not include the quotations)
+4. Enter CLIENT_ID as the client id (do not include the quotations)
+5. Enter SECRET_KEY as the secret key (do not include the quotations)
 6. Leave the "Key" slot empty
 7. Go to the "Chosen Sites" box and click the small green plus button on the top right, add a new site with "http://127.0.0.1:8000/" as the Domain Name and Display Name
 8. Go to the home page and try it out! (the admin account does not have a profile picture)
