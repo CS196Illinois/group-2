@@ -4,6 +4,7 @@ from django.contrib.auth import logout
 
 # Create your views here.
 def index(request):
+    current_user = request.user
     courses = Course.objects.all()
     context = {
         'courses' : courses,
@@ -17,3 +18,4 @@ def user_logout(request):
         'courses' : courses,
     }
     return render(request, 'index.html', context=context)
+
