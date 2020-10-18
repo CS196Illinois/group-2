@@ -3,6 +3,18 @@
 
 
 {% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+      </div>
+    {% endfor %}
+{% endif %}
+
 <div class="container">
     <h1>Current Courses</h1>
     <div class="row">
@@ -10,23 +22,18 @@
         {% for course in courses %}
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                    <div class="card-header">
-                        <ul class="nav nav-pills card-header-pills">
-                          <li class="nav-item">
-                            <a class="nav-link active" href="#">Preview</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="#">More Info</a>
-                          </li>
-                        </ul>
-                    </div>
                     <div class="card-body">
                         <h4 class="card-title">{{course.title}}</h4>
                         <h5 class="card-text">{{course.instructor}}</h5>
                     </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">More Info</a>
+                    </div>
                 </div>
             </div>
         {% endfor %}
+        {% endif %}
+
         <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
@@ -35,7 +42,6 @@
             </div>
         </div>
     </div> <!--End of Row-->
-    {% endif %}
 </div>
 </div>
 {% endblock %}

@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from aggregator.models import CourseField, Course, Instructor
 from django.contrib.auth import logout
-from .forms import CourseForm
+from django.contrib import messages
+from .forms import CourseForm, InstructorForm, FieldForm
 
 # Create your views here.
 def index(request):
@@ -21,13 +22,32 @@ def user_logout(request):
     return render(request, 'index.html', context=context)
 
 def add_course(request):
-    form = CourseForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-    
+    courseForm = CourseForm(request.POST or None)
+    instructForm = InstructorForm(request.POST or None)
+    fieldForm = FieldForm(request.POST or None)
+    instructors = Instructor.objects.all()
     context = {
-        'form' : form,
+        'courseForm' : courseForm,
+        'instructForm' : instructForm,
+        'fieldForm' : fieldForm,
+        'instructors': instructors,
     }
+    if courseForm.is_valid():
+        courseForm.save()
+        #note from Larry: we should add an alert or message to the page confirming that a course was added to the database
+        #probably use combination of css + javascript?
+        return index(request) #redirects to home page
+
+    if instructForm.is_valid():
+        instructForm.save()
+        #note from Larry: we should add an alert or message to the page confirming that an intructor was added to the database
+        #probably use combination of css + javascript?
+
+    if fieldForm.is_valid():
+        fieldForm.save()
+        #note from Larry: we should add an alert or message to the page confirming that a CourseField was added to the databsae
+        #probably use combination of css + javascript?
+
     return render(request, 'course_form.html', context)
 
 def about(request):
