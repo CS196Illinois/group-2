@@ -1,0 +1,32 @@
+{% extends 'base_generic.html' %}
+{% load socialaccount %}
+
+{% block content %}
+<div>
+  <form method='POST'> {% csrf_token %} 
+      <div class="form-group">
+        <label> Course Title </label>
+        {{form.title}}
+      </div>
+      <div class="form-group">
+        <label> Course Number</label>
+        {{form.course_number}}
+      </div>
+      <div class="form-group">
+        <label> Instructor</label>
+        {{form.instructor}}
+      </div>
+      <div class="form-group">
+        <label> Section</label>
+        {{form.section}}
+      </div>
+      <div class="form-group">
+        <label> Course Fields</label>
+        {{form.fields}}
+      </div>
+      <button type="submit" class="btn btn-primary">Add Course</button> 
+    </form>
+</div>
+
+  
+{% endblock %}
