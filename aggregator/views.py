@@ -29,3 +29,7 @@ def add_course(request):
         'form' : form,
     }
     return render(request, 'course_form.html', context)
+
+def about(request):
+    return render(request, 'about.html')
+

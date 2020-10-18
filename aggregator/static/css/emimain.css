@@ -1,0 +1,136 @@
+/* Main Site Properties */
+html, body {
+    margin: 0px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Site Header Bar */
+.siteHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 150px;
+}
+
+.navbar-brand {
+    width: 150px;
+    margin-right: 10px;
+}
+
+.navbar-brand img {
+    height: 50px;
+}
+
+/* Semester Sections */
+.semesterClassesHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 40px;
+    max-height: 100px;
+
+    padding: 15px;
+
+    /* color scheme */
+    background-color: rgb(180, 180, 180);
+    color: white;
+
+    /* text settings */
+    font-weight: bold;
+    font-size: 35px;
+}
+
+.semesterClassesContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: stretch;
+    align-content: stretch;
+
+    /* debug border */
+    /*
+    border-color: maroon;
+    border-style: solid;
+    border-width: 1px;
+    */
+}
+
+/* Cards for Each Class */
+.classCard {
+    height: 300px;
+    width: 250px;
+
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 15px;
+
+    border-color: rgb(180, 180, 180);
+    border-style: solid;
+    border-width: 1px;
+}
+
+/* Text Styling for Class Cards */
+.classCardInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* debug border */
+    /*
+    border-color: maroon;
+    border-style: solid;
+    border-width: 1px;
+    */
+}
+.classColorCircle {
+    height: 50px;
+    width: 50px;
+    border-radius: 100px;
+
+    background-color: orangered;
+}
+.classInfo {
+    padding: 10px;
+}
+.classInfo h2{
+    margin: 0px;
+    line-height: 0px;
+}
+.classInfo p {
+    color: rgb(180, 180, 180);
+}
+
+/* Link List Styling for Class Cards */
+.linkList {
+    list-style-type: none;
+
+    margin: 0;
+    padding: 0;
+}
+
+.linkList li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.linkList a:link {
+    text-decoration: none;
+    color: rgb(180, 180, 180);
+}
+.linkList a:visited {
+    text-decoration: none;
+    color: rgb(180, 180, 180);
+}
+.linkList a:hover {
+    text-decoration: none;
+    color: mediumslateblue;
+}
+.linkList a:active {
+    text-decoration: none;
+    color: orange;
+}

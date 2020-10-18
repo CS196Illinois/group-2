@@ -16,8 +16,32 @@
 
     <!--BOOTSTRAP CSS-->
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  
+  <!--Custom CSS (Emi)-->
+  <link rel="stylesheet" href="{% static 'css/emimain.css' %}">
 </head>
 <body>
+  {% load socialaccount %}
+  <nav class="navbar navbar-expand-lg" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <a href="{% url 'index' %}" class="navbar-brand"><img src="{% static 'allschool-logo.png' %}" alt="AllSchool"></a>
+      </div> <!--end of navbar-brand-->
+      <ul class="nav navbar-nav">
+        <li class="nav-item nav-link"><a href="{% url 'index' %}">AllSchool</a></li>
+        <li class="nav-item nav-link"><a href="{% url 'about' %}">About Us</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+          <li class="nav-item nav-link"><a href="{% url 'index' %}"><img class="rounded-circle" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Google Profile Picture"> My Courses</a></li>
+          <li class="nav-item nav-link"><a href="{% url 'logout' %}">Log Out</a></li>
+
+        {% else %}
+          <li class="nav-item nav-link"><a href="{% provider_login_url 'google' %}">Log In</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
   <div class="container-fluid">
    {% block content %}
    {% endblock %}
