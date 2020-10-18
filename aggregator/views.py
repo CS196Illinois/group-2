@@ -19,3 +19,5 @@ def user_logout(request):
     }
     return render(request, 'index.html', context=context)
 
+def about(request):
+    return render(request, 'about.html')
