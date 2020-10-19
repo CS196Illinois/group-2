@@ -33,8 +33,9 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
-          <li class="nav-item nav-link"><a href="{% url 'index' %}"><img class="rounded-circle" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Google Profile Picture"> My Courses</a></li>
+          <li class="nav-item nav-link"><a href="{% url 'index' %}">My Courses</a></li>
           <li class="nav-item nav-link"><a href="{% url 'logout' %}">Log Out</a></li>
+          <li class="nav-item nav-link"><img class="rounded-circle" style="max-width:30%;" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Google Profile Picture"></li>
 
         {% else %}
           <li class="nav-item nav-link"><a href="{% provider_login_url 'google' %}">Log In</a></li>
