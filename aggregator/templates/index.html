@@ -32,14 +32,21 @@
                 </div>
             </div>
         {% endfor %}
+        {% endif %}
 
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-                <div class="card-body">
-                  <a href="{% url 'addcourse' %}" class="btn btn-primary my-2">Add New Course</a>
+        {% if authenticated %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                    <a href="{% url 'addcourse' %}" class="btn btn-primary my-2">Add New Course</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                Please Login to view your courses!
+            </div>
+        {% endif %}
     </div> <!--End of Row-->
 </div>
 </div>
