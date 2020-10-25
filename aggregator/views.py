@@ -47,7 +47,7 @@ def add_course(request):
 
         #note from Larry: we should add an alert or message to the page confirming that a course was added to the database
         #probably use combination of css + javascript?
-        return index(request) #redirects to home page
+        return redirect('/aggregator') #redirects to home page (changed from render to redirect)
 
     if instructForm.is_valid():
         instructForm.save()
@@ -63,4 +63,24 @@ def add_course(request):
 
 def about(request):
     return render(request, 'about.html')
+
+def loadDetails(request, course_load ):
+    course = Course.objects.all().get(title=course_load)
+    fieldForm = FieldForm(request.POST or None)
+
+    context = {
+        'course' : course,
+        'fieldForm' : fieldForm,
+    }
+
+    if fieldForm.is_valid():
+        newField = CourseField(
+            name = fieldForm.cleaned_data['name'],
+            hyperlink = fieldForm.cleaned_data['hyperlink']
+        )
+        newField.save()
+        course.fields.add(newField)
+        course.save()
+
+    return render(request, 'course_detail.html', context)
 
