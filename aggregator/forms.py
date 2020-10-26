@@ -2,6 +2,10 @@ from django import forms
 
 from .models import Course, Instructor, CourseField
 
+class CourseSearch(forms.Form):
+    Search = forms.CharField(max_length = 100)   
+    
+
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course

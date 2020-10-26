@@ -1,0 +1,21 @@
+{% extends 'base_generic.html' %}
+{% load socialaccount %}
+
+{% block content %}
+<div class="container">
+    <h1>All Courses</h4>
+    <form method='POST'> {% csrf_token %}
+        {{ searchForm }}
+        <button type="submit" class="btn btn-primary">Search</button> 
+    </form>
+{% for course in courses %}
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title"> {{course.title}}, {{course.instructor}}<a href="#" class="btn btn-primary float-right">Add Course</a></h4>
+            <h7 class="card-body"> Added By: {{course.user}}</h7>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock %}
+

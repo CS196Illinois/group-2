@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from aggregator.models import CourseField, Course, Instructor
 from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import CourseForm, InstructorForm, FieldForm
+from .forms import CourseForm, InstructorForm, FieldForm, CourseSearch
 
 # Create your views here.
 def index(request):
@@ -84,3 +84,24 @@ def loadDetails(request, course_load ):
 
     return render(request, 'course_detail.html', context)
 
+def searchPage(request):
+    courses = Course.objects.all()
+    form = CourseSearch(request.POST or None)
+    if form.is_valid():
+        query = form.cleaned_data['Search']
+        filtered = []
+        if len(query) != None and len(query) != 0:
+            for course in courses:
+                #checks if the query string is in this mashed string of relevant fields to check for
+                #should make the search better in the future
+                toCheck = course.title + " " + course.course_number + " " + course.instructor.last_name + " " + course.instructor.first_name + " " + course.section + " " + course.instructor.department
+                if query.lower() in toCheck.lower():
+                    filtered.append(course)
+            courses = filtered
+    
+    context = {
+        'courses' : courses,
+        'searchForm' : form
+    }
+    
+    return render(request, 'course_search.html', context)
