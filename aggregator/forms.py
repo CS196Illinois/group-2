@@ -2,6 +2,10 @@ from django import forms
 
 from .models import Course, Instructor, CourseField
 
+class CourseSearch(forms.Form):
+    Search = forms.CharField(max_length = 100)   
+    
+
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
@@ -16,6 +20,7 @@ class CourseForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'course_number': forms.TextInput(attrs={'class': 'form-control'}),
             'section': forms.TextInput(attrs={'class': 'form-control'}),
+            'fields': forms.CheckboxSelectMultiple(choices=CourseField.objects.all()),
         }
 
 class InstructorForm(forms.ModelForm):

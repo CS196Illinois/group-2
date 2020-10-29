@@ -33,6 +33,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
+          <li class="nav-item nav-link"><a href="{% url 'search' %}">Browse Courses</a></li>
           <li class="nav-item nav-link"><a href="{% url 'index' %}">My Courses</a></li>
           <li class="nav-item nav-link"><a href="{% url 'logout' %}">Log Out</a></li>
           <li class="nav-item nav-link"><img class="rounded-circle" style="max-width:30%;" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Google Profile Picture"></li>
@@ -47,6 +48,7 @@
    {% block content %}
    {% endblock %}
   </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 </html>

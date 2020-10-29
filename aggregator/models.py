@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.models import User
 
 # Course Fields 
 # Example:
@@ -35,7 +34,7 @@ class Course(models.Model):
     fields = models.ManyToManyField(  # This is where we'll have the fields like discussion links, lab links, etc.
         CourseField,
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    users = models.ManyToManyField(User)
 
     class Meta:
         ordering = ['title']
