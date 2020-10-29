@@ -2,6 +2,16 @@
 {% load socialaccount %}
 
 {% block content %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+      </div>
+    {% endfor %}
+{% endif %}
 <div class="container">
     <h1>All Courses</h4>
     <form method='POST'> {% csrf_token %}
@@ -11,8 +21,55 @@
 {% for course in courses %}
     <div class="card mb-4 shadow-sm">
         <div class="card-body">
-            <h4 class="card-title"> {{course.title}}, {{course.instructor}}<a href="#" class="btn btn-primary float-right">Add Course</a></h4>
-            <h7 class="card-body"> Added By: {{course.user}}</h7>
+            <h4 class="card-title"> {{course.title}}, {{course.instructor}}
+                {% if user in course.users.all %}
+                <button type="button" class="btn btn-danger float-right" data-toggle="modal" data-target="#removeCourse">Remove</button>
+                <div class="modal fade" id="removeCourse" tabindex="-1" role="dialog" aria-labelledby="deleteCourseConfirm" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteCourseConfirm">Are you Sure?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-sm">
+                                    <h5>Course</h5>
+                                    <div class="card mb-4 shadow-sm">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                {{course.title}}
+                                            </h6>
+                                            <h7 class="card-body">
+                                                {{course.course_number}}, {{course.section}}
+                                            </h7>
+                                        </div>
+                                    </div>
+                                    <h5>Instructor</h5>
+                                    <div class="card mb-4 shadow-sm">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                {{course.instructor.last_name}}, {{course.instructor.first_name}}
+                                            </h6>
+                                            <h7 class="card-body">
+                                                {{course.instructor.department}}
+                                            </h7>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'removeCourse' course '0' %}" class="btn btn-danger">Remove</a>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                    <a href="{% url 'addCourse' course %}" class="btn btn-primary float-right">Add Course</a>
+                {% endif %}
+            </h4>
         </div>
     </div>
 {% endfor %}

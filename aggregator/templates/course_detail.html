@@ -3,7 +3,16 @@
 
 
 {% block content %}
-
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+      </div>
+    {% endfor %}
+{% endif %}
 <div class="container">
     <div class="row">
         <div class="col-sm">
@@ -40,7 +49,7 @@
                         </h4>
                         <a href= "#"  class="btn btn-primary">Go</a>
                         <a href= "#"  class="btn btn-secondary">Edit</a>
-                        <a href= "#"  class="btn btn-danger">Remove</a>
+                        <a href= "{% url 'removeField' field course %}"  class="btn btn-danger">Remove</a>
                     </div>
                 </div>
             {% endfor %}

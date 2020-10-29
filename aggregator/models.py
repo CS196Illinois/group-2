@@ -34,7 +34,7 @@ class Course(models.Model):
     fields = models.ManyToManyField(  # This is where we'll have the fields like discussion links, lab links, etc.
         CourseField,
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    users = models.ManyToManyField(User)
 
     class Meta:
         ordering = ['title']
