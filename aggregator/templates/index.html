@@ -1,7 +1,6 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-<!-- jumbotron -->
 <div class="jumbotron text-center">
     <h1 class="jumbotron-heading">All School</h1>
     <p class="lead text-muted">All of Your School at Your Fingertips</p>
@@ -11,33 +10,16 @@
         <a href="#" class="btn btn-primary my-2">Sign Up</a>
     </p>
 </div>
-
-<!-- page content -->
 <div class="container">
-    <!-- cards for current classes -->
-    <h1 class="text-center">Current Courses</h1>
+    <h1>Current Courses</h1>
     {% if courses %}
     <div class="row">
         {% for course in courses %}
-            <!-- course card -->
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
-                    <div class="card-header">
-                        <!-- course info -->
+                    <div class="card-body">
                         <h4 class="card-title">{{course.title}}</h4>
                         <h5 class="card-text">{{course.instructor}}</h5>
-                    </div>
-                    <div class="card-body">
-                        <!-- list of links for class -->
-                        <ul class="list-unstyled">
-                        {% for field in course.fields.all %}
-                            <li><a href="{{field.hyperlink}}">{{field.name}}</li>
-                        {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="card-footer">
-                        <!-- custom link button -->
-                        <a href="#" class="btn btn-primary btn-lg btn-block">Add Link</a>
                     </div>
                 </div>
             </div>
