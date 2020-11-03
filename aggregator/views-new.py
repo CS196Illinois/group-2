@@ -6,43 +6,20 @@ from .forms import CourseForm, InstructorForm, FieldForm, CourseSearch, CourseEd
 
 # Create your views here.
 def index(request):
-    print('index()')
-    courseForm = CourseForm(request.POST or None)
-    instructForm = InstructorForm(request.POST or None)
     if request.user.is_authenticated:
-        courses =[]
+        courses = []
         allCourses = Course.objects.all()
         for item in allCourses:
             if request.user in item.users.all():
                 courses.append(item)
     else:
         courses = []
+
     context = {
         'courses' : courses,
         'authenticated': request.user.is_authenticated,
-        'courseForm' : courseForm,
-        'instructForm' : instructForm,
-        'editing': '' #title of the course that is being edited
+        'editing': ''
     }
-    if courseForm.is_valid() and request.user.is_authenticated:
-        course = Course(
-            title=courseForm.cleaned_data['title'],
-            course_number=courseForm.cleaned_data['course_number'],
-            instructor=courseForm.cleaned_data['instructor'],
-            section=courseForm.cleaned_data['section'],
-        )
-        course.save()
-        course.users.add(request.user)
-        for field in courseForm.cleaned_data['fields']:
-            course.fields.add(field)
-        course.save()
-        return redirect('/aggregator') #redirects to clear form
-
-    if instructForm.is_valid():
-        instructForm.save()
-        messages.success(request, 'Instructor Added!')
-
-    
     return render(request, 'index.html', context=context)
 
 #handles a user logging out, redirects to homepage when finished
@@ -165,6 +142,43 @@ def removeField(request, field, course):
 
     return redirect('/aggregator/loadDetails/' + course)
 
+#creates a new course
+def createCourse(request):
+    courseForm = CourseForm(request.POST or None)
+
+    if courseForm.is_valid() and request.user.is_authenticated:
+        course = Course(
+            title=courseForm.cleaned_data['title'],
+            course_number=courseForm.cleaned_data['course_number'],
+            instructor=courseForm.cleaned_data['instructor'],
+            section=courseForm.cleaned_data['section'],
+        )
+        course.save()
+        course.users.add(request.user)
+        for field in courseForm.cleaned_data['fields']:
+            course.fields.add(field)
+        course.save()
+        return redirect('/aggregator/') #redirects to the main page
+    else:
+        context = {
+            'courseForm': courseForm
+        }
+        return render(request, 'create_course.html', context)
+
+#creates a new instructor
+def createInstructor(request):
+    instructorForm = InstructorForm(request.POST or None)
+
+    if instructorForm.is_valid():
+        instructorForm.save()
+        messages.success(request, 'Instructor Added!')
+        return redirect('/aggregator/') #redirects ot the main page
+    else:
+        context = {
+            'instructorForm': instructorForm
+        }
+        return render(request, 'create_instructor.html', context)
+
 def editCourse(request, title):
     form = CourseEditForm(request.POST or None)
 
@@ -182,8 +196,6 @@ def editCourse(request, title):
                     courses.append(item)
         else:
             courses = []
-
-        form.fields['title'].initial = title
 
         context = {
             'courses' : courses,
