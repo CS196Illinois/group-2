@@ -1,3 +1,21 @@
+:root {
+    /* Change colors in this section */
+
+    --base-color: white;
+    --outline-color: lightgray;
+
+    --primary-color: rgb(38, 84, 236);
+    --secondary-color: rgb(57, 98, 235);
+    --highlight-color: rgb(163, 181, 238);
+
+    --danger-color: red;
+
+    /* may need to swap light bg and dark bg colors based on other settings */
+    --light-bg-text-color: black;
+    --light-bg-secondary-text-color: gray;
+    --dark-bg-text-color: white;
+}
+
 .title {
     text-align: center;
 }
@@ -11,7 +29,7 @@
 }
 
 .edit:hover {
-    background-color: lightgray;
+    background-color: var(--highlight-color);
 }
 
 .courses {
@@ -24,7 +42,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 2px solid lightgray;
+    border: 2px solid var(--outline-color);
     padding: 10px;
     margin: 5px;
     width: 250px;
@@ -45,7 +63,9 @@
 .courseIcon {
     width: 50px;
     height: 50px;
-    border: 1px solid black;
+    background-color: var(--primary-color);
+    border: 2px solid var(--outline-color);
+    border-radius: 45px;
     margin-right: 10px;
 }
 
@@ -59,7 +79,7 @@
 }
 
 .instructorName {
-    color: gray;
+    color: var(--light-bg-secondary-text-color);
 }
 
 .courseFieldEdit {
@@ -74,21 +94,21 @@
 
 .courseFieldOverflow:hover {
     display: inline-block;
-    background-color: white;
-    border: 1px solid gray;
+    background-color: var(--base-color);
+    border: 1px solid var(--outline-color);
     margin-right: 5px;
 }
 
 .removeSymbol {
     height: 1.5em;
-    background-color: red;
+    background-color: var(--danger-color);
     margin-right: 3px;
-    color: black;
+    color: var(--light-bg-text-color);
 }
 
 .removeSymbol:hover {
     text-decoration: none;
-    color: black;
+    color: var(--light-bg-text-color);
 }
 
 .courseFieldEditRow {
@@ -99,19 +119,19 @@
 .courseField {
     font-size: 125%;
     text-decoration: none;
-    color: black;
+    color: var(--light-bg-text-color);
     margin-right: 3px;
 }
 
 .courseFieldUrl {
     font-size: 125%;
     text-decoration: none;
-    color: darkgray;
+    color: var(--light-bg-secondary-text-color);
 }
 
 .splitter {
     width: 100%;
-    border-top: 2px solid lightgray;
+    border-top: 2px solid var(--outline-color);
     margin: 5px;
 }
 
@@ -122,16 +142,16 @@
 
 .courseBottomButton {
     width: 100%;
-    color: white;
-    background-color: gray;
-    border: 1px solid black;
+    color: var(--dark-bg-text-color);
+    background-color: var(--primary-color);
+    border: 2px solid var(--secondary-color);
     text-align: center;
     text-decoration: none;
     margin: 3px;
 }
 
 .courseBottomButton:hover {
-    color: white;
+    color: var(--dark-bg-text-color);
     text-decoration: none;
 }
 
@@ -141,15 +161,15 @@
     align-items: center;
     width: 250px;
     height: 300px;
-    border: 2px solid lightgray;
+    border: 2px solid var(--outline-color);
     margin: 5px;
 }
 
 .addCourseButtonLink {
-    color: black;
+    color: var(--light-bg-text-color);
 }
 
 .addCourseButtonLink:hover {
-    color: black;
+    color: var(--light-bg-text-color);
     text-decoration: none;
 }
