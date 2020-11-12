@@ -32,8 +32,8 @@ def index(request):
         )
         course.save()
         course.users.add(request.user)
-        for field in courseForm.cleaned_data['fields']:
-            course.fields.add(field)
+        #for field in courseForm.cleaned_data['fields']:
+        #    course.fields.add(field)
         course.save()
         return redirect('/aggregator') #redirects to clear form
 

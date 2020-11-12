@@ -14,13 +14,11 @@ class CourseForm(forms.ModelForm):
             'course_number',
             'instructor',
             'section',
-            'fields'
         ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'course_number': forms.TextInput(attrs={'class': 'form-control'}),
             'section': forms.TextInput(attrs={'class': 'form-control'}),
-            'fields': forms.CheckboxSelectMultiple(choices=CourseField.objects.all()),
         }
 
 class InstructorForm(forms.ModelForm):
