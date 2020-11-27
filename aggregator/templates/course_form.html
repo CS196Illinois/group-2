@@ -1,0 +1,73 @@
+{% extends 'base_generic.html' %}
+{% load socialaccount %}
+
+{% block content %}
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <div>
+        <form method='POST'> {% csrf_token %} 
+            <div class="form-group">
+              <label> Course Title </label>
+              {{courseForm.title}}
+            </div>
+            <div class="form-group">
+              <label> Course Number</label>
+              {{courseForm.course_number}}
+            </div>
+            <div class="form-group">
+              <label> Instructor</label>
+              {{courseForm.instructor}}
+            </div>
+            <div class="form-group">
+              <label> Section</label>
+              {{courseForm.section}}
+            </div>
+            <div class="form-group">
+              <label> Course Fields</label>
+              {{courseForm.fields}}
+            </div>
+            <button type="submit" class="btn btn-primary">Add Course</button> 
+          </form>
+      </div>    </div>
+    <div class="col-sm">
+      <div>
+        <form method='POST'> {% csrf_token %} 
+          <div class="form-group">
+            <label> Instructor Last Name </label>
+            {{instructForm.last_name}}
+          </div>
+          <div class="form-group">
+            <label> Instructor First Name </label>
+            {{instructForm.first_name}}
+          </div>
+          <div class="form-group">
+            <label> Instructor Department </label>
+            {{instructForm.department}}
+          </div>
+          <button type="submit" class="btn btn-primary">Add Instructor</button> 
+        </form>
+      </div> </div>
+    <div class="col-sm">
+      <div>
+        <form method='POST'> {% csrf_token %} 
+          <div class="form-group">
+            <label> Link Name </label>
+            {{fieldForm.name}}
+          </div>
+           <div class="form-group">
+            <label> URL </label>
+            {{fieldForm.hyperlink}}
+           </div>
+          <button type="submit" class="btn btn-primary">Add Field</button> 
+        </form>
+      </div> 
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
