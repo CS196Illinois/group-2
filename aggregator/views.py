@@ -42,7 +42,7 @@ def index(request):
         messages.success(request, 'Instructor Added!')
 
     
-    return render(request, 'index.html', context=context)
+    return render(request, 'emi.html', context=context)
 
 #handles a user logging out, redirects to homepage when finished
 def user_logout(request):
