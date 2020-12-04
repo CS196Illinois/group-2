@@ -22,6 +22,10 @@
                             <form method="POST" action="{% url 'editCourse' course.title %}">
                             {% csrf_token %}
                         {% endif %}
+                        {% if course.title == addingField %}
+                            <form method="POST" action="{% url 'addField' course.title %}">
+                            {% csrf_token %}
+                        {% endif %}
                         <div class="course">
                             <div class="courseMid">
                                 <div class="courseTop">
@@ -59,18 +63,44 @@
                                         <a class="courseField" href="{{field.hyperlink}}">{{field.name}}</a>
                                     {% endif %}
                                 {% endfor %}
+                                {% if course.title == addingField %}
+                                    <div class="courseFieldEdit">
+                                        <div class="courseFieldOverflow">
+                                            <div class="courseFieldEditRow">
+                                                <a class="addSymbol">
+                                                    &plus;
+                                                </a>
+                                                {{formField.name}}
+                                                {{formField.hyperlink}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="courseBottom">
                                 {% if editing == '' %}
-                                    <a href="{% url 'editCourse' course %}" class="courseBottomButton">Edit</a>
+                                    {% if course.title == addingField %}
+                                        <a href="{% url 'index' %}" class="courseBottomButton">Cancel</a>
+                                    {% else %}
+                                        <a href="{% url 'editCourse' course %}" class="courseBottomButton">Edit</a>
+                                    {% endif %}
                                 {% elif course.title == editing %}
                                     <input type="submit" class="courseBottomButton" value="Save"></input>
                                 {% endif %}
                                 <!--The 'More Info' should be removed and replaced with 'Add Link' -->
-                                <a href="{% url 'loadDetails' course %}" class="courseBottomButton">More Info</a>
+                                <!-- <a href="{% url 'loadDetails' course %}" class="courseBottomButton">More Info</a> -->
+
+                                {% if addingField == '' %}
+                                    <a href="{% url 'addField' course %}" class="courseBottomButton">Add Link</a>
+                                {% elif course.title == addingField %}
+                                    <input type="submit" class="courseBottomButton" value="Save"></input>
+                                {% endif %}
                             </div>
                         </div>
                         {% if course.title == editing %}
+                            </form>
+                        {% endif %}
+                        {% if course.title == addingField %}
                             </form>
                         {% endif %}
                     {% endfor %}

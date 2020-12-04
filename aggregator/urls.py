@@ -13,4 +13,5 @@ urlpatterns = [
     path('add/<addCourse>/', views.addCourse, name= "addCourse"),
     path('removeField/<field>/<course>/', views.removeField, name= "removeField"),
     path('editCourse/<title>/', views.editCourse, name="editCourse"),
+    path('addField/<title>/', views.addField, name="addField"),
 ]

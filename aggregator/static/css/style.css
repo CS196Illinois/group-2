@@ -111,6 +111,13 @@
     color: var(--light-bg-text-color);
 }
 
+.addSymbol {
+    height: 1.5em;
+    background-color: green;
+    margin-right: 3px;
+    color: var(--light-bg-text-color);
+}
+
 .courseFieldEditRow {
     display: flex;
     flex-direction: row;

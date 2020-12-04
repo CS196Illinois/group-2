@@ -27,7 +27,8 @@ def index(request):
         'authenticated': request.user.is_authenticated,
         'courseForm' : courseForm,
         'instructForm' : instructForm,
-        'editing': '' #title of the course that is being edited
+        'editing': '', #title of the course that is being edited
+        'addingField': '',
     }
     if courseForm.is_valid() and request.user.is_authenticated:
         course = Course(
@@ -48,7 +49,7 @@ def index(request):
         messages.success(request, 'Instructor Added!')
 
     
-    return render(request, 'emi.html', context=context)
+    return render(request, 'index.html', context=context)
 
 #handles a user logging out, redirects to homepage when finished
 def user_logout(request):
@@ -212,5 +213,40 @@ def editCourse(request, title):
             'editing': title,
             'form': form,
             'formField' : formFields,
+            'addingField': '',
+        }
+        return render(request, 'index.html', context)
+
+def addField(request, title):
+    course = Course.objects.get(title=title)
+    formField = FieldEditForm(request.POST or None)
+    formField.fields['name'].initial = 'Insert Name'
+    formField.fields['hyperlink'].initial = "Link URL"
+
+    if formField.is_valid() and request.user.is_authenticated:
+        newField = CourseField(
+            name = formField.cleaned_data['name'],
+            hyperlink = formField.cleaned_data['hyperlink']
+        )
+        newField.save()
+        course.fields.add(newField)
+        course.save()
+        return redirect('/aggregator/')
+    else:
+        if request.user.is_authenticated:
+            courses = []
+            allCourses = Course.objects.all()
+            for item in allCourses:
+                if request.user in item.users.all():
+                    courses.append(item)
+        else:
+            courses = []
+        
+        context = {
+            'courses' : courses,
+            'authenticated': request.user.is_authenticated,
+            'editing': '',
+            'formField' : formField,
+            'addingField': title,
         }
         return render(request, 'index.html', context)
