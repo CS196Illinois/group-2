@@ -175,7 +175,7 @@ def editCourse(request, title):
     course = Course.objects.get(title=title)
     formFields = { }
     for field in course.fields.all():
-        formFields[field.name] = FieldEditForm(request.POST or None)
+        formFields[field.name] = FieldEditForm(request.POST or None, prefix = field.name)
 
     if form.is_valid() and request.user.is_authenticated:
         course.title = form.cleaned_data['title']
@@ -184,8 +184,8 @@ def editCourse(request, title):
             currentForm = formFields[key]
             if (currentForm.is_valid()):
                 currentField = course.fields.all().get(name=key)
-                currentField.name = currentForm.cleaned_data['name']
-                currentField.hyperlink = currentForm.cleaned_data['hyperlink']
+                currentField.name = currentForm['name'].value()
+                currentField.hyperlink = currentForm['hyperlink'].value()
                 currentField.save()
         return redirect('/aggregator/')
     else:

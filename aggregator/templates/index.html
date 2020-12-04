@@ -44,15 +44,15 @@
                                     {% if course.title == editing %}
                                         <div class="courseFieldEdit">
                                             <div class="courseFieldOverflow">
+                                                {% with currentForm=formField|get_item:field.name %}
                                                 <div class="courseFieldEditRow">
                                                     <a class="removeSymbol" href="{% url 'removeField' field course %}">
                                                         &minus;
                                                     </a>
-                                                    {% with currentForm=formField|get_item:field.name %}
-                                                    <div class="courseField edit">{{ currentForm.name }}</div>
-                                                    <div class="courseFieldUrl edit">{{ currentForm.hyperlink}}</div> 
-                                                    {% endwith %}
+                                                        {{currentForm.name}}
+                                                        {{currentForm.hyperlink}}
                                                 </div>
+                                                {% endwith %}
                                             </div>
                                         </div>
                                     {% else %}
