@@ -2,53 +2,25 @@ from django.shortcuts import render, redirect
 from aggregator.models import CourseField, Course, Instructor
 from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import CourseForm, InstructorForm, FieldForm, CourseSearch, CourseEditForm, FieldEditForm
-from django.template.defaulttags import register
-
-@register.filter
-def get_item(dictionary, key):
-    return dictionary.get(key)
+from .forms import CourseForm, InstructorForm, FieldForm, CourseSearch, CourseEditForm
 
 # Create your views here.
 def index(request):
-    print('index()')
-    courseForm = CourseForm(request.POST or None)
-    instructForm = InstructorForm(request.POST or None)
     if request.user.is_authenticated:
-        courses =[]
+        courses = []
         allCourses = Course.objects.all()
         for item in allCourses:
             if request.user in item.users.all():
                 courses.append(item)
     else:
         courses = []
+
     context = {
         'courses' : courses,
         'authenticated': request.user.is_authenticated,
-        'courseForm' : courseForm,
-        'instructForm' : instructForm,
-        'editing': '' #title of the course that is being edited
+        'editing': ''
     }
-    if courseForm.is_valid() and request.user.is_authenticated:
-        course = Course(
-            title=courseForm.cleaned_data['title'],
-            course_number=courseForm.cleaned_data['course_number'],
-            instructor=courseForm.cleaned_data['instructor'],
-            section=courseForm.cleaned_data['section'],
-        )
-        course.save()
-        course.users.add(request.user)
-        #for field in courseForm.cleaned_data['fields']:
-        #    course.fields.add(field)
-        course.save()
-        return redirect('/aggregator') #redirects to clear form
-
-    if instructForm.is_valid():
-        instructForm.save()
-        messages.success(request, 'Instructor Added!')
-
-    
-    return render(request, 'emi.html', context=context)
+    return render(request, 'index.html', context=context)
 
 #handles a user logging out, redirects to homepage when finished
 def user_logout(request):
@@ -170,23 +142,50 @@ def removeField(request, field, course):
 
     return redirect('/aggregator/loadDetails/' + course)
 
+#creates a new course
+def createCourse(request):
+    courseForm = CourseForm(request.POST or None)
+
+    if courseForm.is_valid() and request.user.is_authenticated:
+        course = Course(
+            title=courseForm.cleaned_data['title'],
+            course_number=courseForm.cleaned_data['course_number'],
+            instructor=courseForm.cleaned_data['instructor'],
+            section=courseForm.cleaned_data['section'],
+        )
+        course.save()
+        course.users.add(request.user)
+        for field in courseForm.cleaned_data['fields']:
+            course.fields.add(field)
+        course.save()
+        return redirect('/aggregator/') #redirects to the main page
+    else:
+        context = {
+            'courseForm': courseForm
+        }
+        return render(request, 'create_course.html', context)
+
+#creates a new instructor
+def createInstructor(request):
+    instructorForm = InstructorForm(request.POST or None)
+
+    if instructorForm.is_valid():
+        instructorForm.save()
+        messages.success(request, 'Instructor Added!')
+        return redirect('/aggregator/') #redirects ot the main page
+    else:
+        context = {
+            'instructorForm': instructorForm
+        }
+        return render(request, 'create_instructor.html', context)
+
 def editCourse(request, title):
     form = CourseEditForm(request.POST or None)
-    course = Course.objects.get(title=title)
-    formFields = { }
-    for field in course.fields.all():
-        formFields[field.name] = FieldEditForm(request.POST or None, prefix = field.name)
 
     if form.is_valid() and request.user.is_authenticated:
+        course = Course.objects.get(title=title)
         course.title = form.cleaned_data['title']
         course.save()
-        for key in formFields:
-            currentForm = formFields[key]
-            if (currentForm.is_valid()):
-                currentField = course.fields.all().get(name=key)
-                currentField.name = currentForm['name'].value()
-                currentField.hyperlink = currentForm['hyperlink'].value()
-                currentField.save()
         return redirect('/aggregator/')
     else:
         if request.user.is_authenticated:
@@ -198,19 +197,10 @@ def editCourse(request, title):
         else:
             courses = []
 
-        form.fields['title'].initial = title
-        for key in formFields:
-            currentForm = formFields[key]
-            currentField = course.fields.all().get(name=key)
-            currentForm.fields['name'].initial = currentField.name
-            currentForm.fields['hyperlink'].initial = currentField.hyperlink
-        
-
         context = {
             'courses' : courses,
             'authenticated': request.user.is_authenticated,
             'editing': title,
-            'form': form,
-            'formField' : formFields,
+            'form': form
         }
         return render(request, 'index.html', context)
