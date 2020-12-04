@@ -25,7 +25,6 @@
                         <div class="course">
                             <div class="courseMid">
                                 <div class="courseTop">
-                                    <div class="courseIcon"></div>
                                     <div class="courseMainInfo">
                                         {% if course.title == editing %}
                                             {{form.title}}
@@ -49,8 +48,10 @@
                                                     <a class="removeSymbol" href="{% url 'removeField' field course %}">
                                                         &minus;
                                                     </a>
-                                                    <input type="text" class="courseField edit" value="{{field.name}}"></input>
-                                                    <input type="text" class="courseFieldUrl edit" value="{{field.hyperlink}}"></input>
+                                                    {% with currentForm=formField|get_item:field.name %}
+                                                    <div class="courseField edit">{{ currentForm.name }}</div>
+                                                    <div class="courseFieldUrl edit">{{ currentForm.hyperlink}}</div> 
+                                                    {% endwith %}
                                                 </div>
                                             </div>
                                         </div>

@@ -32,6 +32,20 @@ class CourseEditForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'courseTitle edit'})
         }
+        
+class FieldEditForm(forms.ModelForm):
+    class Meta:
+        model = CourseField
+        fields = [
+            'name',
+            'hyperlink',
+        ]
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'courseField edit'}),
+            'hyperlink': forms.TextInput(attrs={'class': 'courseFieldUrl edit'})
+        }
+
+
 
 class InstructorForm(forms.ModelForm):
     class Meta:

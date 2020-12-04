@@ -2,7 +2,12 @@ from django.shortcuts import render, redirect
 from aggregator.models import CourseField, Course, Instructor
 from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import CourseForm, InstructorForm, FieldForm, CourseSearch, CourseEditForm
+from .forms import CourseForm, InstructorForm, FieldForm, CourseSearch, CourseEditForm, FieldEditForm
+from django.template.defaulttags import register
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
 
 # Create your views here.
 def index(request):
@@ -167,11 +172,21 @@ def removeField(request, field, course):
 
 def editCourse(request, title):
     form = CourseEditForm(request.POST or None)
+    course = Course.objects.get(title=title)
+    formFields = { }
+    for field in course.fields.all():
+        formFields[field.name] = FieldEditForm(request.POST or None)
 
     if form.is_valid() and request.user.is_authenticated:
-        course = Course.objects.get(title=title)
         course.title = form.cleaned_data['title']
         course.save()
+        for key in formFields:
+            currentForm = formFields[key]
+            if (currentForm.is_valid()):
+                currentField = course.fields.all().get(name=key)
+                currentField.name = currentForm.cleaned_data['name']
+                currentField.hyperlink = currentForm.cleaned_data['hyperlink']
+                currentField.save()
         return redirect('/aggregator/')
     else:
         if request.user.is_authenticated:
@@ -184,11 +199,18 @@ def editCourse(request, title):
             courses = []
 
         form.fields['title'].initial = title
+        for key in formFields:
+            currentForm = formFields[key]
+            currentField = course.fields.all().get(name=key)
+            currentForm.fields['name'].initial = currentField.name
+            currentForm.fields['hyperlink'].initial = currentField.hyperlink
+        
 
         context = {
             'courses' : courses,
             'authenticated': request.user.is_authenticated,
             'editing': title,
-            'form': form
+            'form': form,
+            'formField' : formFields,
         }
         return render(request, 'index.html', context)
