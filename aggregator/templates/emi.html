@@ -1,125 +1,205 @@
-<!DOCTYPE html>
-<html>
-    {% load static %}
+{% extends 'base_generic.html' %}
+{% load socialaccount %}
+{% load static %}
 
-    <head>
-        <title>AllSchool | Your Courses</title>
-        <link rel="stylesheet" href="{% static 'css/emimain.css' %}">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
-    </head>
-    <body>
-        <!-- Website Header -->
-        <div class="siteHeader">
-            <img src="allschool-logo.png", alt="AllSchool logo", width="64" height="64">
+{% block content %}
+<head>
+    <title>AllSchool | Your Courses</title>
+    <link rel="stylesheet" href="{% static 'css/emimain.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <!-- Semester Classes Section -->
+    <div class="semesterClassesHeader">Your Classes</div>
+
+    <div class="semesterClassesContainer">
+        <!-- Class Card -->
+        {% if courses %}
+        {% for course in courses %}
+
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <div class="classColorCircle"></div>
+                    <h4 class="card-title">{{course.title}}</h4>
+                    <h5 class="card-text">{{course.instructor}}</h5>
+                    {% for field in course.fields.all %}
+                    <ul class="linkList">
+                        <!--
+                        <li><a href="">{{field.name}}</a></li>
+                        -->
+        
+                        {{field.name}}
+                        <a href= "#"  class="btn btn-primary">Go</a>
+                        <a href= "#"  class="btn btn-secondary">Edit</a>
+                        <a href= "{% url 'removeField' field course %}"  class="btn btn-danger">Remove</a>
+                    </ul>
+                    {% endfor %}
+                    
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'loadDetails' course %}" class="btn btn-primary">More Info</a>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeCourse">Remove</button>
+                    
+                    <div class="modal fade" id="removeCourse" tabindex="-1" role="dialog" aria-labelledby="deleteCourseConfirm" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteCourseConfirm">Are you Sure?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm">
+                                        <h5>Course</h5>
+                                        <div class="card mb-4 shadow-sm">
+                                            <div class="card-body">
+                                                <h6 class="card-title">
+                                                    {{course.title}}
+                                                </h6>
+                                                <h7 class="card-body">
+                                                    {{course.course_number}}, {{course.section}}
+                                                </h7>
+                                            </div>
+                                        </div>
+                                        <h5>Instructor</h5>
+                                        <div class="card mb-4 shadow-sm">
+                                            <div class="card-body">
+                                                <h6 class="card-title">
+                                                    {{course.instructor.first_name}} {{course.instructor.last_name}}
+                                                </h6>
+                                                <h7 class="card-body">
+                                                    {{course.instructor.department}}
+                                                </h7>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{% url 'removeCourse' course '1' %}" class="btn btn-danger">Remove</a>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- Semester Classes Section -->
-        <div class="semesterClassesHeader">Your Current Classes</div>
+        {% endfor %}
+        {% endif %}
 
-        <div class="semesterClassesContainer">
-            <!-- Class Card -->
-            <div class="classCard">
-                <div class="classCardInfo">
-                    <div class="classColor">
-                        <div class="classColorCircle"></div>
-                    </div>
-                    <div class="classInfo">
-                        <h2>Class Name</h2>
-                        <p>professor@illinois.edu</p>
+        {% if authenticated %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseAdd">Add New Course</button>
                     </div>
                 </div>
-                <hr>
-                <ul class="linkList">
-                    <!--
-                    <li><a href="">Course Page</a></li>
-                    <li><a href="">Lecture</a></li>
-                    <li><a href="">Discussion</a></li>
-                    <li><a href="">Homework</a></li>
-                    -->
-
-                    <li><a href="">COURSE PAGE</a></li>
-                    <li><a href="">LECTURE</a></li>
-                    <li><a href="">DISCUSSION</a></li>
-                    <li><a href="">HOMEWORK</a></li>
-                </ul>
             </div>
-
-            <!-- Test Classes -->
-            <div class="classCard">
-                <div class="classCardInfo">
-                    <div class="classColor">
-                        <div class="classColorCircle"></div>
-                    </div>
-                    <div class="classInfo">
-                        <h2>Class Name</h2>
-                        <p>professor@illinois.edu</p>
+            <div class="modal fade" id="courseAdd" tabindex="-1" role="dialog" aria-labelledby="addCourseForm" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addCourseForm">Add Course</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method='POST'> {% csrf_token %} 
+                                <div class="form-group">
+                                    <label> Course Title </label>
+                                    {{courseForm.title}}
+                                </div>
+                                <div class="form-group">
+                                    <label> Course Number</label>
+                                    {{courseForm.course_number}}
+                                </div>
+                                <div class="form-group">
+                                    <label> Instructor</label>
+                                    {{courseForm.instructor}} <a class="btn btn-primary float-right" data-dismiss="modal" data-toggle="modal" data-target="#instructorForm">Add Instructor</a>
+                                </div>
+                                <div class="form-group">
+                                    <label> Section</label>
+                                    {{courseForm.section}}
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Course</button> 
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                              </form>
+                        </div>
                     </div>
                 </div>
-                <hr>
-                <ul class="linkList">
-                    <!--
-                    <li><a href="">Course Page</a></li>
-                    <li><a href="">Lecture</a></li>
-                    <li><a href="">Discussion</a></li>
-                    <li><a href="">Homework</a></li>
-                    -->
-
-                    <li><a href="">COURSE PAGE</a></li>
-                    <li><a href="">LECTURE</a></li>
-                    <li><a href="">DISCUSSION</a></li>
-                    <li><a href="">HOMEWORK</a></li>
-                </ul>
             </div>
-            <div class="classCard">
-                <div class="classCardInfo">
-                    <div class="classColor">
-                        <div class="classColorCircle"></div>
-                    </div>
-                    <div class="classInfo">
-                        <h2>Class Name</h2>
-                        <p>professor@illinois.edu</p>
+            <div class="modal fade" id="instructorForm" tabindex="-1" role="dialog" aria-labelledby="addInstruct" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addInstruct">Add Instructor</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method='POST'> {% csrf_token %} 
+                                <label> </label>
+                                    <div class="form-group">
+                                        <label> Instructor Last Name </label>
+                                        {{instructForm.last_name}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Instructor First Name </label>
+                                        {{instructForm.first_name}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Instructor Department </label>
+                                        {{instructForm.department}}
+                                    </div>
+                                <button type="submit" class="btn btn-primary">Add</button> 
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <hr>
-                <ul class="linkList">
-                    <!--
-                    <li><a href="">Course Page</a></li>
-                    <li><a href="">Lecture</a></li>
-                    <li><a href="">Discussion</a></li>
-                    <li><a href="">Homework</a></li>
-                    -->
-
-                    <li><a href="">COURSE PAGE</a></li>
-                    <li><a href="">LECTURE</a></li>
-                    <li><a href="">DISCUSSION</a></li>
-                    <li><a href="">HOMEWORK</a></li>
-                </ul>
             </div>
-            <div class="classCard">
-                <div class="classCardInfo">
-                    <div class="classColor">
-                        <div class="classColorCircle"></div>
-                    </div>
-                    <div class="classInfo">
-                        <h2>Class Name</h2>
-                        <p>professor@illinois.edu</p>
-                    </div>
+
+
+
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                Please Login to view your courses!
+            </div>
+        {% endif %}
+
+        <!-- Test Classes - Example to Remove Later -->
+        <div class="classCard">
+            <div class="classCardInfo">
+                <div class="classColor">
+                    <div class="classColorCircle"></div>
                 </div>
-                <hr>
-                <ul class="linkList">
-                    <!--
-                    <li><a href="">Course Page</a></li>
-                    <li><a href="">Lecture</a></li>
-                    <li><a href="">Discussion</a></li>
-                    <li><a href="">Homework</a></li>
-                    -->
-
-                    <li><a href="">COURSE PAGE</a></li>
-                    <li><a href="">LECTURE</a></li>
-                    <li><a href="">DISCUSSION</a></li>
-                    <li><a href="">HOMEWORK</a></li>
-                </ul>
+                <div class="classInfo">
+                    <h2>Class Name</h2>
+                    <p>professor@illinois.edu</p>
+                </div>
             </div>
+            <hr>
+            <ul class="linkList">
+                <!--
+                <li><a href="">Course Page</a></li>
+                <li><a href="">Lecture</a></li>
+                <li><a href="">Discussion</a></li>
+                <li><a href="">Homework</a></li>
+                -->
 
+                <li><a href="">COURSE PAGE</a></li>
+                <li><a href="">LECTURE</a></li>
+                <li><a href="">DISCUSSION</a></li>
+                <li><a href="">HOMEWORK</a></li>
+            </ul>
         </div>
-    </body>
-</html>
+        <!-- End of Test Classes -->
+
+
+    </div>
+</body>
+
+{% endblock %}
