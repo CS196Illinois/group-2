@@ -113,7 +113,7 @@
 
 .addSymbol {
     height: 1.5em;
-    background-color: green;
+    background-color: var(--primary-color);
     margin-right: 3px;
     color: var(--light-bg-text-color);
 }
@@ -161,6 +161,21 @@
     color: var(--dark-bg-text-color);
     text-decoration: none;
 }
+
+.courseBottomButtonRed {
+    width: 100%;
+    color: var(--dark-bg-text-color);
+    background-color: var(--danger-color);
+    border: 2px solid var(--danger-color);
+    text-align: center;
+    text-decoration: none;
+    margin: 3px;
+}
+.courseBottomButtonRed:hover {
+    color: var(--dark-bg-text-color);
+    text-decoration: none;
+}
+
 
 .addCourseButton {
     display: flex;
