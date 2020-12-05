@@ -62,7 +62,9 @@
                                         </div>
                                     {% else %}
                                         <ul class="linkList">
-                                            <a class="courseField" href="{{field.hyperlink}}" target="_blank" rel="noopener noreferrer">{{field.name}}</a>
+                                            {% if not field.private or field.user == currentUser %}
+                                                <a class="courseField" href="{{field.hyperlink}}" target="_blank" rel="noopener noreferrer">{{field.name}}</a>
+                                            {% endif %}
                                         </ul>
                                     {% endif %}
                                 {% endfor %}
@@ -75,6 +77,7 @@
                                                 </a>
                                                 {{formField.name}}
                                                 {{formField.hyperlink}}
+                                                Private? {{formField.private}}
                                             </div>
                                         </div>
                                     </div>

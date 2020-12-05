@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from aggregator.models import CourseField, Course, Instructor
 from django.contrib.auth import logout
 from django.contrib import messages
-from .forms import CourseForm, InstructorForm, FieldForm, CourseSearch, CourseEditForm, FieldEditForm
+from .forms import CourseForm, InstructorForm, FieldForm, CourseSearch, CourseEditForm, FieldEditForm, FieldAddForm
 from django.template.defaulttags import register
 
 @register.filter
@@ -29,6 +29,7 @@ def index(request):
         'instructForm' : instructForm,
         'editing': '', #title of the course that is being edited
         'addingField': '',
+        'currentUser': request.user,
     }
     if courseForm.is_valid() and request.user.is_authenticated:
         course = Course(
@@ -93,7 +94,7 @@ def user_logout(request):
 def about(request):
     return render(request, 'about.html')
 
-#loads the details page for an course, creates a form so users can add links to their course 
+#old/outdated function that loads the details page for an course, creates a form so users can add links to their course 
 def loadDetails(request, course_load ):
     course = Course.objects.all().get(title=course_load)
     fieldForm = FieldForm(request.POST or None)
@@ -148,7 +149,7 @@ def removeCourse(request, remCourse, redirectUrl):
         if courseUsers.count() == 0:
             course.delete() 
         messages.success(request, 'Course Removed!')
-    if (redirectUrl is '0'):
+    if redirectUrl == '0':
         return redirect('/aggregator/search')
     else:
         return redirect('/aggregator')
@@ -219,14 +220,20 @@ def editCourse(request, title):
 
 def addField(request, title):
     course = Course.objects.get(title=title)
-    formField = FieldEditForm(request.POST or None)
+    formField = FieldAddForm(request.POST or None)
     formField.fields['name'].initial = 'Insert Name'
     formField.fields['hyperlink'].initial = "Link URL"
+    formField.fields['private'].initial = False
 
     if formField.is_valid() and request.user.is_authenticated:
+        isPrivate = formField.cleaned_data['private']
+        if isPrivate == None:
+            isPrivate = False
         newField = CourseField(
             name = formField.cleaned_data['name'],
-            hyperlink = formField.cleaned_data['hyperlink']
+            hyperlink = formField.cleaned_data['hyperlink'],
+            private = isPrivate,
+            user = request.user,
         )
         newField.save()
         course.fields.add(newField)

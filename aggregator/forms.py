@@ -40,7 +40,21 @@ class FieldEditForm(forms.ModelForm):
         ]
         widgets = {
             'name': forms.TextInput(attrs={'class': 'courseField edit'}),
-            'hyperlink': forms.TextInput(attrs={'class': 'courseFieldUrl edit'})
+            'hyperlink': forms.TextInput(attrs={'class': 'courseFieldUrl edit'}),
+        }
+
+class FieldAddForm(forms.ModelForm):
+    private = forms.BooleanField(required=False)
+    class Meta:
+        model = CourseField
+        fields = [
+            'name',
+            'hyperlink',
+            'private',
+        ]
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'courseField edit'}),
+            'hyperlink': forms.TextInput(attrs={'class': 'courseFieldUrl edit'}),
         }
 
 

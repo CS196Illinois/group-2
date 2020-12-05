@@ -34,9 +34,11 @@
                     </div>
                     <div class="splitter"></div>
                     {% for field in course.fields.all %}
-                        <ul class="linkList">
-                            <a class="courseField" href="{{field.hyperlink}}" target="_blank" rel="noopener noreferrer">{{field.name}}</a>
-                        </ul>
+                        {% if not field.private %}
+                            <ul class="linkList">
+                                <a class="courseField" href="{{field.hyperlink}}" target="_blank" rel="noopener noreferrer">{{field.name}}</a>
+                            </ul>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class="courseBottom">
