@@ -23,6 +23,7 @@
                             <form method="POST" action="{% url 'editCourse' course.pk %}">
                             {% csrf_token %}
                         {% endif %}
+                        <p>{{course.pk}} {{addingField}}</p>
                         {% if course.pk == addingField %}
                             <form method="POST" action="{% url 'addField' course.pk %}">
                             {% csrf_token %}
@@ -52,7 +53,8 @@
                                 </div>
                                 <div class="splitter"></div>
                                 {% for field in course.fields.all %}
-                                    {% if not field.private or field.user == currentUser%}
+                                    {% if not field.private or field.user == currentUser %}
+                                        <p>{{course.pk}} {{editing}}</p>
                                         {% if course.pk == editing %}
                                             <div class="courseFieldEdit">
                                                 <div class="courseFieldOverflow">
