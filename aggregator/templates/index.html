@@ -101,6 +101,7 @@
                                 {% elif course.title == addingField %}
                                     <input type="submit" class="courseBottomButton" value="Save"></input>
                                 {% endif %}
+                                <a href="{% url 'removeCourse' course '1' %}" class="courseBottomButtonRed">Remove</a>
                             </div>
                         </div>
                         {% if course.title == editing %}
