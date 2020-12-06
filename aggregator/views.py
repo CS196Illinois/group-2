@@ -30,6 +30,20 @@ def index(request):
         'addingField': '',
         'currentUser': request.user,
     }
+
+    return render(request, 'index.html', context=context)
+
+def addInstructor(request):
+    instructForm = InstructorForm(request.POST or None)
+
+    if instructForm.is_valid():
+        instructForm.save()
+        messages.success(request, 'Instructor Added!')
+    return redirect('/aggregator/')
+
+def createCourse(request):
+    courseForm = CourseForm(request.POST or None)
+
     if courseForm.is_valid() and request.user.is_authenticated:
         course = Course(
             title=courseForm.cleaned_data['title'],
@@ -40,14 +54,7 @@ def index(request):
         course.save()
         course.users.add(request.user)
         course.save()
-        return redirect('/aggregator') #redirects to clear form
-
-    if instructForm.is_valid():
-        instructForm.save()
-        messages.success(request, 'Instructor Added!')
-
-    
-    return render(request, 'index.html', context=context)
+    return redirect('/aggregator/')
 
 #handles a user logging out, redirects to homepage when finished
 def user_logout(request):

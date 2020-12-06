@@ -131,7 +131,7 @@
                               </button>
                         </div>
                         <div class="modal-body">
-                            <form method='POST'> {% csrf_token %} 
+                            <form method='POST' action="{% url 'createCourse' %}"> {% csrf_token %}
                                 <div class="form-group">
                                     <label> Course Title </label>
                                     {{courseForm.title}}
@@ -165,7 +165,7 @@
                               </button>
                         </div>
                         <div class="modal-body">
-                            <form method='POST'> {% csrf_token %} 
+                            <form method='POST' action="{% url 'addInstructor' %}"> {% csrf_token %} 
                                 <label> </label>
                                     <div class="form-group">
                                         <label> Instructor Last Name </label>
