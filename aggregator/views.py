@@ -133,7 +133,7 @@ def removeField(request, field, course):
         currentCourse.fields.remove(currentField)
         messages.success(request, 'Field Removed!')
 
-    return redirect('/aggregator/loadDetails/' + course)
+    return redirect('/aggregator')
 
 def editCourse(request, title):
     form = CourseEditForm(request.POST or None)
