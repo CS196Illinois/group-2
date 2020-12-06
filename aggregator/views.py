@@ -138,6 +138,7 @@ def removeField(request, field, course):
 def editCourse(request, title):
     form = CourseEditForm(request.POST or None)
     course = Course.objects.get(title=title)
+    form.initial['instructor'] = course.instructor
     formFields = { }
     for field in course.fields.all():
         formFields[field.name] = FieldEditForm(request.POST or None, prefix = field.name)

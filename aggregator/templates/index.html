@@ -38,10 +38,12 @@
                                         {% endif %}
 
                                         {% if course.title == editing %}
-                                            {{form.instructor}}
-                                            <button type="button" data-toggle="modal" data-target="#instructorForm">
-                                                &plus;
-                                            </button>
+                                            <div class="instructorEdit">
+                                                {{form.instructor}}
+                                                <button class="courseButton" type="button" data-toggle="modal" data-target="#instructorForm">
+                                                    &plus;
+                                                </button>
+                                            </div>
                                             <!---<input type="text" class="instructorName edit" value="{{course.instructor}}"}></input>-->
                                         {% else %}
                                             <div class="instructorName">{{course.instructor}}</div>
@@ -90,20 +92,20 @@
                             <div class="courseBottom">
                                 {% if editing == '' %}
                                     {% if course.title == addingField %}
-                                        <a href="{% url 'index' %}" class="courseBottomButton">Cancel</a>
+                                        <a href="{% url 'index' %}" class="courseButton">Cancel</a>
                                     {% else %}
-                                        <a href="{% url 'editCourse' course %}" class="courseBottomButton">Edit</a>
+                                        <a href="{% url 'editCourse' course %}" class="courseButton">Edit</a>
                                     {% endif %}
                                 {% elif course.title == editing %}
-                                    <input type="submit" class="courseBottomButton" value="Save"></input>
+                                    <input type="submit" class="courseButton" value="Save"></input>
                                 {% endif %}
                                 <!--The 'More Info' should be removed and replaced with 'Add Link' -->
                                 <!-- <a href="{% url 'loadDetails' course %}" class="courseBottomButton">More Info</a> -->
 
                                 {% if addingField == '' %}
-                                    <a href="{% url 'addField' course %}" class="courseBottomButton">Add Link</a>
+                                    <a href="{% url 'addField' course %}" class="courseButton">Add Link</a>
                                 {% elif course.title == addingField %}
-                                    <input type="submit" class="courseBottomButton" value="Save"></input>
+                                    <input type="submit" class="courseButton" value="Save"></input>
                                 {% endif %}
                             </div>
                         </div>

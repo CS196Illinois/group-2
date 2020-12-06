@@ -78,6 +78,11 @@
     font-size: 200%;
 }
 
+.instructorEdit {
+    display: flex;
+    flex-direction: row;
+}
+
 .instructorName {
     color: var(--light-bg-secondary-text-color);
 }
@@ -147,7 +152,7 @@
     flex-direction: column;
 }
 
-.courseBottomButton {
+.courseButton {
     width: 100%;
     color: var(--dark-bg-text-color);
     background-color: var(--primary-color);
@@ -157,7 +162,7 @@
     margin: 3px;
 }
 
-.courseBottomButton:hover {
+.courseButton:hover {
     color: var(--dark-bg-text-color);
     text-decoration: none;
 }
