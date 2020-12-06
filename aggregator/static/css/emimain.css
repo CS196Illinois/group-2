@@ -13,6 +13,15 @@ html, body {
     height: 150px;
 }
 
+.navbar-brand {
+    width: 150px;
+    margin-right: 10px;
+}
+
+.navbar-brand img {
+    height: 50px;
+}
+
 /* Semester Sections */
 .semesterClassesHeader {
     display: flex;

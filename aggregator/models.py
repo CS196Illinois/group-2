@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Course Fields 
 # Example:
@@ -7,6 +10,8 @@ from django.db import models
 class CourseField(models.Model):
     name = models.CharField(max_length=20)
     hyperlink = models.URLField()
+    private = models.BooleanField(default = False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.name
@@ -31,12 +36,10 @@ class Course(models.Model):
     fields = models.ManyToManyField(  # This is where we'll have the fields like discussion links, lab links, etc.
         CourseField,
     )
+    users = models.ManyToManyField(User)
 
     class Meta:
         ordering = ['title']
     
     def __str__(self):
         return self.title
-
-
-    

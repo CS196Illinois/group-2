@@ -25,6 +25,12 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Mac Specific
+.DS_Store
+
+#VS code specific
+.vscode/
 MANIFEST
 
 # PyInstaller

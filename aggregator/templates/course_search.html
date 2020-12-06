@@ -1,0 +1,57 @@
+{% extends 'base_generic.html' %}
+{% load socialaccount %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+      </div>
+    {% endfor %}
+{% endif %}
+<div class="semesterClassesHeader">All Courses</div>
+<div class="semesterClassesContainer">
+    <form method='POST'> {% csrf_token %}
+        {{ searchForm }}
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+<div class="semesterClassesContainer">
+    <div class="courses">
+        {% for course in courses %}
+            <div class="course">
+                <div class="courseMid">
+                    <div class="courseTop">
+                        <div class="courseMainInfo">
+                            <div class="courseTitle">{{course.title}}</div>
+                            <div class="instructorName">{{course.instructor}}</div>
+                    
+                        </div>
+                    </div>
+                    <div class="splitter"></div>
+                    {% for field in course.fields.all %}
+                        {% if not field.private %}
+                            <ul class="linkList">
+                                <a class="courseField" href="{{field.hyperlink}}" target="_blank" rel="noopener noreferrer">{{field.name}}</a>
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="courseBottom">
+                    {% if user in course.users.all %}
+                        <a href="{% url 'removeCourse' course '0' %}" class="courseBottomButtonRed">Remove</a>
+                    {% else %}
+                        <a href="{% url 'addCourse' course %}" class="courseBottomButton">Add Course</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
