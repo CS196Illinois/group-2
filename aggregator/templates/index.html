@@ -96,7 +96,7 @@
                                     {% if course.pk == addingField %}
                                         <a href="{% url 'index' %}" class="courseButton">Cancel</a>
                                     {% else %}
-                                        <a href="{% url 'editCourse' course.pk %}" class="courseBottomButton">Edit</a>
+                                        <a href="{% url 'editCourse' course.pk %}" class="courseButton">Edit</a>
                                     {% endif %}
                                 {% elif course.pk == editing %}
                                     <input type="submit" class="courseButton" value="Save"></input>
@@ -105,9 +105,8 @@
                                 <!-- <a href="{% url 'loadDetails' course %}" class="courseBottomButton">More Info</a> -->
 
                                 {% if addingField == '' %}
-
-                                    <a href="{% url 'addField' course.pk %}" class="courseBottomButton">Add Link</a>
-                                {% elif course.pk == addingField %}
+                                    <a href="{% url 'addField' course.pk %}" class="courseButton">Add Link</a>
+                                {% elif course.title == addingField %}
                                     <input type="submit" class="courseButton" value="Save"></input>
                                 {% endif %}
                                 <a href="{% url 'removeCourse' course.pk '1' %}" class="courseBottomButtonRed">Remove</a>
