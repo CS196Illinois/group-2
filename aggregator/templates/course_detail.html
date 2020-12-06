@@ -47,7 +47,7 @@
                         <h4 class="card-title">
                             {{field.name}}
                         </h4>
-                        <a href= "#"  class="btn btn-primary">Go</a>
+                        <a href= "{{field.hyperlink}}"  class="btn btn-primary">Go</a>
                         <a href= "#"  class="btn btn-secondary">Edit</a>
                         <a href= "{% url 'removeField' field course %}"  class="btn btn-danger">Remove</a>
                     </div>
