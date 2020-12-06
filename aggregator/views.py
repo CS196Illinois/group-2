@@ -138,6 +138,7 @@ def removeField(request, fieldPK, pk):
 def editCourse(request, coursePk):
     form = CourseEditForm(request.POST or None)
     course = Course.objects.get(pk=coursePk)
+    cPk = coursePk
     form.initial['instructor'] = course.instructor
     formFields = { }
     for field in course.fields.all():
@@ -176,7 +177,7 @@ def editCourse(request, coursePk):
         context = {
             'courses' : courses,
             'authenticated': request.user.is_authenticated,
-            'editing': coursePk,
+            'editing': course,
             'form': form,
             'formField' : formFields,
             'addingField': '',
@@ -186,6 +187,7 @@ def editCourse(request, coursePk):
 
 def addField(request, coursePk):
     course = Course.objects.get(pk=coursePk)
+    cPk = coursePk
     formField = FieldAddForm(request.POST or None)
     formField.fields['name'].initial = 'Insert Name'
     formField.fields['hyperlink'].initial = "Link URL"
@@ -220,6 +222,6 @@ def addField(request, coursePk):
             'authenticated': request.user.is_authenticated,
             'editing': '',
             'formField' : formField,
-            'addingField': coursePk,
+            'addingField': course,
         }
         return render(request, 'index.html', context)

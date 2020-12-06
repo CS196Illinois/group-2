@@ -19,12 +19,11 @@
             <div class="courses">
                 {% if courses %}
                     {% for course in courses %}
-                        {% if course.pk == editing %}
+                        {% if course == editing %}
                             <form method="POST" action="{% url 'editCourse' course.pk %}">
                             {% csrf_token %}
                         {% endif %}
-                        <p>{{course.pk}} {{addingField}}</p>
-                        {% if course.pk == addingField %}
+                        {% if course == addingField %}
                             <form method="POST" action="{% url 'addField' course.pk %}">
                             {% csrf_token %}
                         {% endif %}
@@ -32,13 +31,13 @@
                             <div class="courseMid">
                                 <div class="courseTop">
                                     <div class="courseMainInfo">
-                                        {% if course.pk == editing %}
+                                        {% if course == editing %}
                                             {{form.title}}
                                         {% else %}
                                             <div class="courseTitle">{{course.title}}</div>
                                         {% endif %}
 
-                                        {% if course.pk == editing %}
+                                        {% if course == editing %}
                                             <div class="instructorEdit">
                                                 {{form.instructor}}
                                                 <button class="courseButton" type="button" data-toggle="modal" data-target="#instructorForm">
@@ -54,8 +53,7 @@
                                 <div class="splitter"></div>
                                 {% for field in course.fields.all %}
                                     {% if not field.private or field.user == currentUser %}
-                                        <p>{{course.pk}} {{editing}}</p>
-                                        {% if course.pk == editing %}
+                                        {% if course == editing %}
                                             <div class="courseFieldEdit">
                                                 <div class="courseFieldOverflow">
                                                     {% with currentForm=formField|get_item:field.name %}
@@ -76,7 +74,7 @@
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
-                                {% if course.pk == addingField %}
+                                {% if course == addingField %}
                                     <div class="courseFieldEdit">
                                         <div class="courseFieldOverflow">
                                             <div class="courseFieldEditRow">
@@ -93,29 +91,30 @@
                             </div>
                             <div class="courseBottom">
                                 {% if editing == '' %}
-                                    {% if course.pk == addingField %}
+                                    {% if course == addingField %}
                                         <a href="{% url 'index' %}" class="courseButton">Cancel</a>
                                     {% else %}
-                                        <a href="{% url 'editCourse' course.pk %}" class="courseButton">Edit</a>
+                                        <a href="{% url 'editCourse' course.pk %}" class="courseBottomButton">Edit</a>
                                     {% endif %}
-                                {% elif course.pk == editing %}
+                                {% elif course == editing %}
                                     <input type="submit" class="courseButton" value="Save"></input>
                                 {% endif %}
                                 <!--The 'More Info' should be removed and replaced with 'Add Link' -->
                                 <!-- <a href="{% url 'loadDetails' course %}" class="courseBottomButton">More Info</a> -->
 
                                 {% if addingField == '' %}
-                                    <a href="{% url 'addField' course.pk %}" class="courseButton">Add Link</a>
-                                {% elif course.title == addingField %}
+
+                                    <a href="{% url 'addField' course.pk %}" class="courseBottomButton">Add Link</a>
+                                {% elif course == addingField %}
                                     <input type="submit" class="courseButton" value="Save"></input>
                                 {% endif %}
                                 <a href="{% url 'removeCourse' course.pk '1' %}" class="courseBottomButtonRed">Remove</a>
                             </div>
                         </div>
-                        {% if course.pk == editing %}
+                        {% if course == editing %}
                             </form>
                         {% endif %}
-                        {% if course.pk == addingField %}
+                        {% if course == addingField %}
                             </form>
                         {% endif %}
                     {% endfor %}
