@@ -42,15 +42,8 @@ def addInstructor(request):
     return redirect('/aggregator/')
 
 def createCourse(request):
-    courseForm = CourseForm(request.POST or None)
-
-    if courseForm.is_valid() and request.user.is_authenticated:
-        course = Course(
-            title=courseForm.cleaned_data['title'],
-            course_number=courseForm.cleaned_data['course_number'],
-            instructor=courseForm.cleaned_data['instructor'],
-            section=courseForm.cleaned_data['section'],
-        )
+    if request.user.is_authenticated:
+        course = Course(title='My Course', course_number=0, instructor=None, section='a')
         course.save()
         course.users.add(request.user)
         course.save()
@@ -151,6 +144,7 @@ def editCourse(request, title):
 
     if form.is_valid() and request.user.is_authenticated:
         course.title = form.cleaned_data['title']
+        course.instructor = form.cleaned_data['instructor']
         course.save()
         for key in formFields:
             currentForm = formFields[key]
@@ -177,7 +171,7 @@ def editCourse(request, title):
             currentForm.fields['name'].initial = currentField.name
             currentForm.fields['hyperlink'].initial = currentField.hyperlink
         
-
+        instructForm = InstructorForm(request.POST or None)
         context = {
             'courses' : courses,
             'authenticated': request.user.is_authenticated,
@@ -185,6 +179,7 @@ def editCourse(request, title):
             'form': form,
             'formField' : formFields,
             'addingField': '',
+            'instructForm': instructForm,
         }
         return render(request, 'index.html', context)
 
