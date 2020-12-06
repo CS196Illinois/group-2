@@ -20,11 +20,11 @@
                 {% if courses %}
                     {% for course in courses %}
                         {% if course.title == editing %}
-                            <form method="POST" action="{% url 'editCourse' course.title %}">
+                            <form method="POST" action="{% url 'editCourse' course.pk %}">
                             {% csrf_token %}
                         {% endif %}
                         {% if course.title == addingField %}
-                            <form method="POST" action="{% url 'addField' course.title %}">
+                            <form method="POST" action="{% url 'addField' course.pk %}">
                             {% csrf_token %}
                         {% endif %}
                         <div class="course">
@@ -92,7 +92,7 @@
                                     {% if course.title == addingField %}
                                         <a href="{% url 'index' %}" class="courseBottomButton">Cancel</a>
                                     {% else %}
-                                        <a href="{% url 'editCourse' course %}" class="courseBottomButton">Edit</a>
+                                        <a href="{% url 'editCourse' course.pk %}" class="courseBottomButton">Edit</a>
                                     {% endif %}
                                 {% elif course.title == editing %}
                                     <input type="submit" class="courseBottomButton" value="Save"></input>
@@ -101,7 +101,7 @@
                                 <!-- <a href="{% url 'loadDetails' course %}" class="courseBottomButton">More Info</a> -->
 
                                 {% if addingField == '' %}
-                                    <a href="{% url 'addField' course %}" class="courseBottomButton">Add Link</a>
+                                    <a href="{% url 'addField' course.pk %}" class="courseBottomButton">Add Link</a>
                                 {% elif course.title == addingField %}
                                     <input type="submit" class="courseBottomButton" value="Save"></input>
                                 {% endif %}
