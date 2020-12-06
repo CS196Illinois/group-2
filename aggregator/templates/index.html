@@ -1,30 +1,196 @@
 {% extends 'base_generic.html' %}
+{% load socialaccount %}
 
 {% block content %}
-<div class="jumbotron text-center">
-    <h1 class="jumbotron-heading">All School</h1>
-    <p class="lead text-muted">All of Your School at Your Fingertips</p>
-    <p><em>developed by: <strong>Serious Cereals</strong></em></p>
-    <p>
-        <a href="#" class="btn btn-primary my-2">Log In</a>
-        <a href="#" class="btn btn-primary my-2">Sign Up</a>
-    </p>
-</div>
-<div class="container">
-    <h1>Current Courses</h1>
-    {% if courses %}
-    <div class="row">
-        {% for course in courses %}
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h4 class="card-title">{{course.title}}</h4>
-                        <h5 class="card-text">{{course.instructor}}</h5>
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+      </div>
+    {% endfor %}
+{% endif %}
+<div class="semesterClassesHeader">Your Courses</div>
+
+<div class="semesterClassesContainer">
+        {% if authenticated %}
+            <div class="courses">
+                {% if courses %}
+                    {% for course in courses %}
+                        {% if course.title == editing %}
+                            <form method="POST" action="{% url 'editCourse' course.title %}">
+                            {% csrf_token %}
+                        {% endif %}
+                        {% if course.title == addingField %}
+                            <form method="POST" action="{% url 'addField' course.title %}">
+                            {% csrf_token %}
+                        {% endif %}
+                        <div class="course">
+                            <div class="courseMid">
+                                <div class="courseTop">
+                                    <div class="courseMainInfo">
+                                        {% if course.title == editing %}
+                                            {{form.title}}
+                                        {% else %}
+                                            <div class="courseTitle">{{course.title}}</div>
+                                        {% endif %}
+
+                                        {% if course.title == editing %}
+                                            <input type="text" class="instructorName edit" value="{{course.instructor}}"}></input>
+                                        {% else %}
+                                            <div class="instructorName">{{course.instructor}}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="splitter"></div>
+                                {% for field in course.fields.all %}
+                                    {% if course.title == editing %}
+                                        <div class="courseFieldEdit">
+                                            <div class="courseFieldOverflow">
+                                                {% with currentForm=formField|get_item:field.name %}
+                                                <div class="courseFieldEditRow">
+                                                    <a class="removeSymbol" href="{% url 'removeField' field course %}">
+                                                        &minus;
+                                                    </a>
+                                                        {{currentForm.name}}
+                                                        {{currentForm.hyperlink}}
+                                                </div>
+                                                {% endwith %}
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <ul class="linkList">
+                                            {% if not field.private or field.user == currentUser %}
+                                                <a class="courseField" href="{{field.hyperlink}}" target="_blank" rel="noopener noreferrer">{{field.name}}</a>
+                                            {% endif %}
+                                        </ul>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if course.title == addingField %}
+                                    <div class="courseFieldEdit">
+                                        <div class="courseFieldOverflow">
+                                            <div class="courseFieldEditRow">
+                                                <a class="addSymbol">
+                                                    &plus;
+                                                </a>
+                                                {{formField.name}}
+                                                {{formField.hyperlink}}
+                                                Private? {{formField.private}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="courseBottom">
+                                {% if editing == '' %}
+                                    {% if course.title == addingField %}
+                                        <a href="{% url 'index' %}" class="courseBottomButton">Cancel</a>
+                                    {% else %}
+                                        <a href="{% url 'editCourse' course %}" class="courseBottomButton">Edit</a>
+                                    {% endif %}
+                                {% elif course.title == editing %}
+                                    <input type="submit" class="courseBottomButton" value="Save"></input>
+                                {% endif %}
+                                <!--The 'More Info' should be removed and replaced with 'Add Link' -->
+                                <!-- <a href="{% url 'loadDetails' course %}" class="courseBottomButton">More Info</a> -->
+
+                                {% if addingField == '' %}
+                                    <a href="{% url 'addField' course %}" class="courseBottomButton">Add Link</a>
+                                {% elif course.title == addingField %}
+                                    <input type="submit" class="courseBottomButton" value="Save"></input>
+                                {% endif %}
+                                <a href="{% url 'removeCourse' course '1' %}" class="courseBottomButtonRed">Remove</a>
+                            </div>
+                        </div>
+                        {% if course.title == editing %}
+                            </form>
+                        {% endif %}
+                        {% if course.title == addingField %}
+                            </form>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <!-- This is what should be used, but the backend isn't yet ready
+                <a class="addCourseButtonLink" href="/aggregator/createCourse/">
+                    <div class="addCourseButton">
+                        Add New Course
+                    </div>
+                </a>
+                -->
+                <button type="button" class="addCourseButton" data-toggle="modal" data-target="#courseAdd">Add New Course</button>
+            </div>
+            <!--The following is from the old ui and will be removed once the backend has been upgraded-->
+            <div class="modal fade" id="courseAdd" tabindex="-1" role="dialog" aria-labelledby="addCourseForm" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addCourseForm">Add Course</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method='POST'> {% csrf_token %} 
+                                <div class="form-group">
+                                    <label> Course Title </label>
+                                    {{courseForm.title}}
+                                </div>
+                                <div class="form-group">
+                                    <label> Course Number</label>
+                                    {{courseForm.course_number}}
+                                </div>
+                                <div class="form-group">
+                                    <label> Instructor</label>
+                                    {{courseForm.instructor}} <a class="btn btn-primary float-right" data-dismiss="modal" data-toggle="modal" data-target="#instructorForm">Add Instructor</a>
+                                </div>
+                                <div class="form-group">
+                                    <label> Section</label>
+                                    {{courseForm.section}}
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Course</button> 
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                              </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
-    </div> <!--End of Row-->
-    {% endif %}
+            <div class="modal fade" id="instructorForm" tabindex="-1" role="dialog" aria-labelledby="addInstruct" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addInstruct">Add Instructor</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method='POST'> {% csrf_token %} 
+                                <label> </label>
+                                    <div class="form-group">
+                                        <label> Instructor Last Name </label>
+                                        {{instructForm.last_name}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Instructor First Name </label>
+                                        {{instructForm.first_name}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Instructor Department </label>
+                                        {{instructForm.department}}
+                                    </div>
+                                <button type="submit" class="btn btn-primary">Add</button> 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                Please Login to view your courses!
+            </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
