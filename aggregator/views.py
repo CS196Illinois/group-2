@@ -26,8 +26,8 @@ def index(request):
         'authenticated': request.user.is_authenticated,
         'courseForm' : courseForm,
         'instructForm' : instructForm,
-        'editing': '', #title of the course that is being edited
-        'addingField': '',
+        'editing': '', #pk of the course that is being edited
+        'addingField': '', #pk of the field that is being edited
         'currentUser': request.user,
     }
 
@@ -102,10 +102,10 @@ def searchPage(request):
     return render(request, 'course_search.html', context)
 
 #deletes a course from the database, redirects to a specified redirect url
-def removeCourse(request, remCourse, redirectUrl):
+def removeCourse(request, pk, redirectUrl):
     #currently only looks for them based on title so there might be issues with two coursew with same title
     #potentially generate unique id for each course in the future?
-    course = Course.objects.get(title=remCourse)
+    course = Course.objects.get(pk=pk)
     courseUsers = course.users
     if request.user in courseUsers.all():
         courseUsers.remove(request.user)
@@ -118,26 +118,26 @@ def removeCourse(request, remCourse, redirectUrl):
         return redirect('/aggregator')
 
 #adds a course to a certain user from the search page
-def addCourse(request, addCourse):
-    course = Course.objects.get(title=addCourse)
+def addCourse(request, pk):
+    course = Course.objects.get(pk=pk)
     if not request.user in course.users.all():
         course.users.add(request.user)
         messages.success(request, 'Course Added!')
     return redirect('/aggregator/search')
 
 #removes a field from a certain course
-def removeField(request, field, course):
-    currentCourse = Course.objects.get(title=course)
-    currentField = CourseField.objects.get(name=field)
+def removeField(request, fieldPK, pk):
+    currentCourse = Course.objects.get(pk=pk)
+    currentField = CourseField.objects.get(pk=fieldPK)
     if currentField in currentCourse.fields.all():
         currentCourse.fields.remove(currentField)
         messages.success(request, 'Field Removed!')
 
     return redirect('/aggregator')
 
-def editCourse(request, pk):
+def editCourse(request, coursePk):
     form = CourseEditForm(request.POST or None)
-    course = Course.objects.get(pk=pk)
+    course = Course.objects.get(pk=coursePk)
     form.initial['instructor'] = course.instructor
     formFields = { }
     for field in course.fields.all():
@@ -176,7 +176,7 @@ def editCourse(request, pk):
         context = {
             'courses' : courses,
             'authenticated': request.user.is_authenticated,
-            'editing': course.title,
+            'editing': coursePk,
             'form': form,
             'formField' : formFields,
             'addingField': '',
@@ -184,8 +184,8 @@ def editCourse(request, pk):
         }
         return render(request, 'index.html', context)
 
-def addField(request, course, pk):
-    course = Course.objects.get(pk=pk)
+def addField(request, coursePk):
+    course = Course.objects.get(pk=coursePk)
     formField = FieldAddForm(request.POST or None)
     formField.fields['name'].initial = 'Insert Name'
     formField.fields['hyperlink'].initial = "Link URL"
@@ -220,6 +220,6 @@ def addField(request, course, pk):
             'authenticated': request.user.is_authenticated,
             'editing': '',
             'formField' : formField,
-            'addingField': title,
+            'addingField': coursePk,
         }
         return render(request, 'index.html', context)
