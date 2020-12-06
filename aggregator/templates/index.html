@@ -19,11 +19,11 @@
             <div class="courses">
                 {% if courses %}
                     {% for course in courses %}
-                        {% if course.title == editing %}
+                        {% if course.pk == editing %}
                             <form method="POST" action="{% url 'editCourse' course.pk %}">
                             {% csrf_token %}
                         {% endif %}
-                        {% if course.title == addingField %}
+                        {% if course.pk == addingField %}
                             <form method="POST" action="{% url 'addField' course.pk %}">
                             {% csrf_token %}
                         {% endif %}
@@ -31,13 +31,13 @@
                             <div class="courseMid">
                                 <div class="courseTop">
                                     <div class="courseMainInfo">
-                                        {% if course.title == editing %}
+                                        {% if course.pk == editing %}
                                             {{form.title}}
                                         {% else %}
                                             <div class="courseTitle">{{course.title}}</div>
                                         {% endif %}
 
-                                        {% if course.title == editing %}
+                                        {% if course.pk == editing %}
                                             <div class="instructorEdit">
                                                 {{form.instructor}}
                                                 <button class="courseButton" type="button" data-toggle="modal" data-target="#instructorForm">
@@ -53,12 +53,12 @@
                                 <div class="splitter"></div>
                                 {% for field in course.fields.all %}
                                     {% if not field.private or field.user == currentUser%}
-                                        {% if course.title == editing %}
+                                        {% if course.pk == editing %}
                                             <div class="courseFieldEdit">
                                                 <div class="courseFieldOverflow">
                                                     {% with currentForm=formField|get_item:field.name %}
                                                     <div class="courseFieldEditRow">
-                                                        <a class="removeSymbol" href="{% url 'removeField' field course %}">
+                                                        <a class="removeSymbol" href="{% url 'removeField' field.pk course.pk %}">
                                                             &minus;
                                                         </a>
                                                             {{currentForm.name}}
@@ -74,7 +74,7 @@
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
-                                {% if course.title == addingField %}
+                                {% if course.pk == addingField %}
                                     <div class="courseFieldEdit">
                                         <div class="courseFieldOverflow">
                                             <div class="courseFieldEditRow">
@@ -91,12 +91,12 @@
                             </div>
                             <div class="courseBottom">
                                 {% if editing == '' %}
-                                    {% if course.title == addingField %}
+                                    {% if course.pk == addingField %}
                                         <a href="{% url 'index' %}" class="courseButton">Cancel</a>
                                     {% else %}
                                         <a href="{% url 'editCourse' course.pk %}" class="courseBottomButton">Edit</a>
                                     {% endif %}
-                                {% elif course.title == editing %}
+                                {% elif course.pk == editing %}
                                     <input type="submit" class="courseButton" value="Save"></input>
                                 {% endif %}
                                 <!--The 'More Info' should be removed and replaced with 'Add Link' -->
@@ -105,16 +105,16 @@
                                 {% if addingField == '' %}
 
                                     <a href="{% url 'addField' course.pk %}" class="courseBottomButton">Add Link</a>
-                                {% elif course.title == addingField %}
+                                {% elif course.pk == addingField %}
                                     <input type="submit" class="courseButton" value="Save"></input>
                                 {% endif %}
-                                <a href="{% url 'removeCourse' course '1' %}" class="courseBottomButtonRed">Remove</a>
+                                <a href="{% url 'removeCourse' course.pk '1' %}" class="courseBottomButtonRed">Remove</a>
                             </div>
                         </div>
-                        {% if course.title == editing %}
+                        {% if course.pk == editing %}
                             </form>
                         {% endif %}
-                        {% if course.title == addingField %}
+                        {% if course.pk == addingField %}
                             </form>
                         {% endif %}
                     {% endfor %}
