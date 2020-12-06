@@ -26,9 +26,11 @@ class CourseEditForm(forms.ModelForm):
         model = Course
         fields = [
             'title',
+            'instructor',
         ]
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'courseTitle edit'})
+            'title': forms.TextInput(attrs={'class': 'courseTitle edit'}),
+            'instructor': forms.Select()
         }
         
 class FieldEditForm(forms.ModelForm):

@@ -38,7 +38,11 @@
                                         {% endif %}
 
                                         {% if course.title == editing %}
-                                            <input type="text" class="instructorName edit" value="{{course.instructor}}"}></input>
+                                            {{form.instructor}}
+                                            <button type="button" data-toggle="modal" data-target="#instructorForm">
+                                                &plus;
+                                            </button>
+                                            <!---<input type="text" class="instructorName edit" value="{{course.instructor}}"}></input>-->
                                         {% else %}
                                             <div class="instructorName">{{course.instructor}}</div>
                                         {% endif %}
@@ -111,50 +115,13 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
-                <!-- This is what should be used, but the backend isn't yet ready
                 <a class="addCourseButtonLink" href="/aggregator/createCourse/">
                     <div class="addCourseButton">
                         Add New Course
                     </div>
                 </a>
-                -->
-                <button type="button" class="addCourseButton" data-toggle="modal" data-target="#courseAdd">Add New Course</button>
             </div>
             <!--The following is from the old ui and will be removed once the backend has been upgraded-->
-            <div class="modal fade" id="courseAdd" tabindex="-1" role="dialog" aria-labelledby="addCourseForm" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addCourseForm">Add Course</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                        </div>
-                        <div class="modal-body">
-                            <form method='POST'> {% csrf_token %} 
-                                <div class="form-group">
-                                    <label> Course Title </label>
-                                    {{courseForm.title}}
-                                </div>
-                                <div class="form-group">
-                                    <label> Course Number</label>
-                                    {{courseForm.course_number}}
-                                </div>
-                                <div class="form-group">
-                                    <label> Instructor</label>
-                                    {{courseForm.instructor}} <a class="btn btn-primary float-right" data-dismiss="modal" data-toggle="modal" data-target="#instructorForm">Add Instructor</a>
-                                </div>
-                                <div class="form-group">
-                                    <label> Section</label>
-                                    {{courseForm.section}}
-                                </div>
-                                <button type="submit" class="btn btn-primary">Add Course</button> 
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                              </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="modal fade" id="instructorForm" tabindex="-1" role="dialog" aria-labelledby="addInstruct" aria-hidden="true">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
@@ -165,7 +132,7 @@
                               </button>
                         </div>
                         <div class="modal-body">
-                            <form method='POST'> {% csrf_token %} 
+                            <form method='POST' action="{% url 'addInstructor' %}"> {% csrf_token %} 
                                 <label> </label>
                                     <div class="form-group">
                                         <label> Instructor Last Name </label>

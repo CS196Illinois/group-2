@@ -11,7 +11,6 @@ def get_item(dictionary, key):
 
 # Create your views here.
 def index(request):
-    print('index()')
     courseForm = CourseForm(request.POST or None)
     instructForm = InstructorForm(request.POST or None)
     if request.user.is_authenticated:
@@ -31,65 +30,29 @@ def index(request):
         'addingField': '',
         'currentUser': request.user,
     }
-    if courseForm.is_valid() and request.user.is_authenticated:
-        course = Course(
-            title=courseForm.cleaned_data['title'],
-            course_number=courseForm.cleaned_data['course_number'],
-            instructor=courseForm.cleaned_data['instructor'],
-            section=courseForm.cleaned_data['section'],
-        )
-        course.save()
-        course.users.add(request.user)
-        #for field in courseForm.cleaned_data['fields']:
-        #    course.fields.add(field)
-        course.save()
-        return redirect('/aggregator') #redirects to clear form
+
+    return render(request, 'index.html', context=context)
+
+def addInstructor(request):
+    instructForm = InstructorForm(request.POST or None)
 
     if instructForm.is_valid():
         instructForm.save()
         messages.success(request, 'Instructor Added!')
+    return redirect('/aggregator/')
 
-    
-    return render(request, 'index.html', context=context)
+def createCourse(request):
+    if request.user.is_authenticated:
+        course = Course(title='My Course', course_number=0, instructor=None, section='a')
+        course.save()
+        course.users.add(request.user)
+        course.save()
+    return redirect('/aggregator/')
 
 #handles a user logging out, redirects to homepage when finished
 def user_logout(request):
     logout(request)
     return redirect('/aggregator/')
-
-#old/outdated function used to handle separate page dedicated to adding Courses, Instructors, and Links
-""" def add_course(request):
-    courseForm = CourseForm(request.POST or None)
-    instructForm = InstructorForm(request.POST or None)
-    fieldForm = FieldForm(request.POST or None)
-    instructors = Instructor.objects.all()
-    context = {
-        'courseForm' : courseForm,
-        'instructForm' : instructForm,
-        'fieldForm' : fieldForm,
-        'instructors': instructors,
-    }
-    if courseForm.is_valid() and request.user.is_authenticated:
-        course = Course(
-            title=courseForm.cleaned_data['title'],
-            course_number=courseForm.cleaned_data['course_number'],
-            instructor=courseForm.cleaned_data['instructor'],
-            section=courseForm.cleaned_data['section'],
-        )
-        course.save()
-        course.users.add(request.user)
-        for field in courseForm.cleaned_data['fields']:
-            course.fields.add(field)
-        course.save()
-        return redirect('/aggregator') #redirects to home page (changed from render to redirect)
-
-    if instructForm.is_valid():
-        instructForm.save()
-
-    if fieldForm.is_valid():
-        fieldForm.save()
-
-    return render(request, 'course_form.html', context) """
 
 def about(request):
     return render(request, 'about.html')
@@ -181,6 +144,7 @@ def editCourse(request, title):
 
     if form.is_valid() and request.user.is_authenticated:
         course.title = form.cleaned_data['title']
+        course.instructor = form.cleaned_data['instructor']
         course.save()
         for key in formFields:
             currentForm = formFields[key]
@@ -207,7 +171,7 @@ def editCourse(request, title):
             currentForm.fields['name'].initial = currentField.name
             currentForm.fields['hyperlink'].initial = currentField.hyperlink
         
-
+        instructForm = InstructorForm(request.POST or None)
         context = {
             'courses' : courses,
             'authenticated': request.user.is_authenticated,
@@ -215,6 +179,7 @@ def editCourse(request, title):
             'form': form,
             'formField' : formFields,
             'addingField': '',
+            'instructForm': instructForm,
         }
         return render(request, 'index.html', context)
 
