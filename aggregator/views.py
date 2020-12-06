@@ -133,11 +133,11 @@ def removeField(request, field, course):
         currentCourse.fields.remove(currentField)
         messages.success(request, 'Field Removed!')
 
-    return redirect('/aggregator/loadDetails/' + course)
+    return redirect('/aggregator')
 
-def editCourse(request, title):
+def editCourse(request, pk):
     form = CourseEditForm(request.POST or None)
-    course = Course.objects.get(title=title)
+    course = Course.objects.get(pk=pk)
     form.initial['instructor'] = course.instructor
     formFields = { }
     for field in course.fields.all():
@@ -165,7 +165,7 @@ def editCourse(request, title):
         else:
             courses = []
 
-        form.fields['title'].initial = title
+        form.fields['title'].initial = course.title
         for key in formFields:
             currentForm = formFields[key]
             currentField = course.fields.all().get(name=key)
@@ -176,7 +176,7 @@ def editCourse(request, title):
         context = {
             'courses' : courses,
             'authenticated': request.user.is_authenticated,
-            'editing': title,
+            'editing': course.title,
             'form': form,
             'formField' : formFields,
             'addingField': '',
@@ -184,8 +184,8 @@ def editCourse(request, title):
         }
         return render(request, 'index.html', context)
 
-def addField(request, title):
-    course = Course.objects.get(title=title)
+def addField(request, course, pk):
+    course = Course.objects.get(pk=pk)
     formField = FieldAddForm(request.POST or None)
     formField.fields['name'].initial = 'Insert Name'
     formField.fields['hyperlink'].initial = "Link URL"
