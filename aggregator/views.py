@@ -11,7 +11,6 @@ def get_item(dictionary, key):
 
 # Create your views here.
 def index(request):
-    print('index()')
     courseForm = CourseForm(request.POST or None)
     instructForm = InstructorForm(request.POST or None)
     if request.user.is_authenticated:
@@ -40,8 +39,6 @@ def index(request):
         )
         course.save()
         course.users.add(request.user)
-        #for field in courseForm.cleaned_data['fields']:
-        #    course.fields.add(field)
         course.save()
         return redirect('/aggregator') #redirects to clear form
 
@@ -56,40 +53,6 @@ def index(request):
 def user_logout(request):
     logout(request)
     return redirect('/aggregator/')
-
-#old/outdated function used to handle separate page dedicated to adding Courses, Instructors, and Links
-""" def add_course(request):
-    courseForm = CourseForm(request.POST or None)
-    instructForm = InstructorForm(request.POST or None)
-    fieldForm = FieldForm(request.POST or None)
-    instructors = Instructor.objects.all()
-    context = {
-        'courseForm' : courseForm,
-        'instructForm' : instructForm,
-        'fieldForm' : fieldForm,
-        'instructors': instructors,
-    }
-    if courseForm.is_valid() and request.user.is_authenticated:
-        course = Course(
-            title=courseForm.cleaned_data['title'],
-            course_number=courseForm.cleaned_data['course_number'],
-            instructor=courseForm.cleaned_data['instructor'],
-            section=courseForm.cleaned_data['section'],
-        )
-        course.save()
-        course.users.add(request.user)
-        for field in courseForm.cleaned_data['fields']:
-            course.fields.add(field)
-        course.save()
-        return redirect('/aggregator') #redirects to home page (changed from render to redirect)
-
-    if instructForm.is_valid():
-        instructForm.save()
-
-    if fieldForm.is_valid():
-        fieldForm.save()
-
-    return render(request, 'course_form.html', context) """
 
 def about(request):
     return render(request, 'about.html')
