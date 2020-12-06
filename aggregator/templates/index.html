@@ -50,26 +50,26 @@
                                 </div>
                                 <div class="splitter"></div>
                                 {% for field in course.fields.all %}
-                                    {% if course.title == editing %}
-                                        <div class="courseFieldEdit">
-                                            <div class="courseFieldOverflow">
-                                                {% with currentForm=formField|get_item:field.name %}
-                                                <div class="courseFieldEditRow">
-                                                    <a class="removeSymbol" href="{% url 'removeField' field course %}">
-                                                        &minus;
-                                                    </a>
-                                                        {{currentForm.name}}
-                                                        {{currentForm.hyperlink}}
+                                    {% if not field.private or field.user == currentUser%}
+                                        {% if course.title == editing %}
+                                            <div class="courseFieldEdit">
+                                                <div class="courseFieldOverflow">
+                                                    {% with currentForm=formField|get_item:field.name %}
+                                                    <div class="courseFieldEditRow">
+                                                        <a class="removeSymbol" href="{% url 'removeField' field course %}">
+                                                            &minus;
+                                                        </a>
+                                                            {{currentForm.name}}
+                                                            {{currentForm.hyperlink}}
+                                                    </div>
+                                                    {% endwith %}
                                                 </div>
-                                                {% endwith %}
                                             </div>
-                                        </div>
-                                    {% else %}
-                                        <ul class="linkList">
-                                            {% if not field.private or field.user == currentUser %}
+                                        {% else %}
+                                            <ul class="linkList">
                                                 <a class="courseField" href="{{field.hyperlink}}" target="_blank" rel="noopener noreferrer">{{field.name}}</a>
-                                            {% endif %}
-                                        </ul>
+                                            </ul>
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
                                 {% if course.title == addingField %}
