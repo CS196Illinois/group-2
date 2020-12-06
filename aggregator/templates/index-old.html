@@ -1,0 +1,163 @@
+{% extends 'base_generic.html' %}
+{% load socialaccount %}
+
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+      </div>
+    {% endfor %}
+{% endif %}
+<div class="container">
+    <h1>Current Courses</h1>
+    <div class="row">
+        {% if courses %}
+        {% for course in courses %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title">{{course.title}}</h4>
+                        <h5 class="card-text">{{course.instructor}}</h5>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'loadDetails' course %}" class="btn btn-primary">More Info</a>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeCourse">Remove</button>
+                        <div class="modal fade" id="removeCourse" tabindex="-1" role="dialog" aria-labelledby="deleteCourseConfirm" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteCourseConfirm">Are you Sure?</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="col-sm">
+                                            <h5>Course</h5>
+                                            <div class="card mb-4 shadow-sm">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">
+                                                        {{course.title}}
+                                                    </h6>
+                                                    <h7 class="card-body">
+                                                        {{course.course_number}}, {{course.section}}
+                                                    </h7>
+                                                </div>
+                                            </div>
+                                            <h5>Instructor</h5>
+                                            <div class="card mb-4 shadow-sm">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">
+                                                        {{course.instructor.last_name}}, {{course.instructor.first_name}}
+                                                    </h6>
+                                                    <h7 class="card-body">
+                                                        {{course.instructor.department}}
+                                                    </h7>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{% url 'removeCourse' course '1' %}" class="btn btn-danger">Remove</a>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% endif %}
+
+        {% if authenticated %}
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseAdd">Add New Course</button>
+                </div>
+            </div>
+            <div class="modal fade" id="courseAdd" tabindex="-1" role="dialog" aria-labelledby="addCourseForm" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addCourseForm">Add Course</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method='POST'> {% csrf_token %} 
+                                <div class="form-group">
+                                    <label> Course Title </label>
+                                    {{courseForm.title}}
+                                </div>
+                                <div class="form-group">
+                                    <label> Course Number</label>
+                                    {{courseForm.course_number}}
+                                </div>
+                                <div class="form-group">
+                                    <label> Instructor</label>
+                                    {{courseForm.instructor}} <a class="btn btn-primary float-right" data-dismiss="modal" data-toggle="modal" data-target="#instructorForm">Add Instructor</a>
+                                </div>
+                                <div class="form-group">
+                                    <label> Section</label>
+                                    {{courseForm.section}}
+                                </div>
+                                <div class="form-group">
+                                    <label> Course Fields</label>
+                                    {{courseForm.fields}}
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Course</button> 
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                              </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="instructorForm" tabindex="-1" role="dialog" aria-labelledby="addInstruct" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addInstruct">Add Instructor</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method='POST'> {% csrf_token %} 
+                                <label> </label>
+                                    <div class="form-group">
+                                        <label> Instructor Last Name </label>
+                                        {{instructForm.last_name}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Instructor First Name </label>
+                                        {{instructForm.first_name}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Instructor Department </label>
+                                        {{instructForm.department}}
+                                    </div>
+                                <button type="submit" class="btn btn-primary">Add</button> 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                Please Login to view your courses!
+            </div>
+        {% endif %}
+    </div> <!--End of Row-->
+</div>
+</div>
+{% endblock %}

@@ -14,11 +14,13 @@ class CourseForm(forms.ModelForm):
             'course_number',
             'instructor',
             'section',
+            'fields'
         ]
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'course_number': forms.TextInput(attrs={'class': 'form-control'}),
             'section': forms.TextInput(attrs={'class': 'form-control'}),
+            'fields': forms.CheckboxSelectMultiple(choices=CourseField.objects.all()),
         }
 
 class CourseEditForm(forms.ModelForm):
@@ -30,34 +32,6 @@ class CourseEditForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'courseTitle edit'})
         }
-        
-class FieldEditForm(forms.ModelForm):
-    class Meta:
-        model = CourseField
-        fields = [
-            'name',
-            'hyperlink',
-        ]
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'courseField edit'}),
-            'hyperlink': forms.TextInput(attrs={'class': 'courseFieldUrl edit'}),
-        }
-
-class FieldAddForm(forms.ModelForm):
-    private = forms.BooleanField(required=False)
-    class Meta:
-        model = CourseField
-        fields = [
-            'name',
-            'hyperlink',
-            'private',
-        ]
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'courseField edit'}),
-            'hyperlink': forms.TextInput(attrs={'class': 'courseFieldUrl edit'}),
-        }
-
-
 
 class InstructorForm(forms.ModelForm):
     class Meta:

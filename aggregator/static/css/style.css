@@ -1,0 +1,197 @@
+:root {
+    /* Change colors in this section */
+
+    --base-color: white;
+    --outline-color: lightgray;
+
+    --primary-color: rgb(38, 84, 236);
+    --secondary-color: rgb(57, 98, 235);
+    --highlight-color: rgb(163, 181, 238);
+
+    --danger-color: red;
+
+    /* may need to swap light bg and dark bg colors based on other settings */
+    --light-bg-text-color: black;
+    --light-bg-secondary-text-color: gray;
+    --dark-bg-text-color: white;
+}
+
+.title {
+    text-align: center;
+}
+
+.edit {
+    background: transparent;
+    outline: 0;
+    border: none;
+    padding: 0;
+    max-width: 150px;
+}
+
+.edit:hover {
+    background-color: var(--highlight-color);
+}
+
+.courses {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.course {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid var(--outline-color);
+    padding: 10px;
+    margin: 5px;
+    width: 250px;
+    min-height: 300px;
+    z-index: 50;
+}
+
+.courseMid {
+    display: flex;
+    flex-direction: column;
+}
+
+.courseTop {
+    display: flex;
+    flex-direction: row;
+}
+
+.courseIcon {
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    border: 2px solid var(--outline-color);
+    border-radius: 45px;
+    margin-right: 10px;
+}
+
+.courseMainInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.courseTitle {
+    font-size: 200%;
+}
+
+.instructorName {
+    color: var(--light-bg-secondary-text-color);
+}
+
+.courseFieldEdit {
+    overflow: hidden;
+    z-index: 100;
+    padding: 1
+}
+
+.courseFieldEdit:hover {
+    overflow: visible;
+}
+
+.courseFieldOverflow:hover {
+    display: inline-block;
+    background-color: var(--base-color);
+    border: 1px solid var(--outline-color);
+    margin-right: 5px;
+}
+
+.removeSymbol {
+    height: 1.5em;
+    background-color: var(--danger-color);
+    margin-right: 3px;
+    color: var(--light-bg-text-color);
+}
+
+.removeSymbol:hover {
+    text-decoration: none;
+    color: var(--light-bg-text-color);
+}
+
+.addSymbol {
+    height: 1.5em;
+    background-color: var(--primary-color);
+    margin-right: 3px;
+    color: var(--light-bg-text-color);
+}
+
+.courseFieldEditRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.courseField {
+    font-size: 125%;
+    text-decoration: none;
+    color: var(--light-bg-text-color);
+    margin-right: 3px;
+}
+
+.courseFieldUrl {
+    font-size: 125%;
+    text-decoration: none;
+    color: var(--light-bg-secondary-text-color);
+}
+
+.splitter {
+    width: 100%;
+    border-top: 2px solid var(--outline-color);
+    margin: 5px;
+}
+
+.courseBottom {
+    display: flex;
+    flex-direction: column;
+}
+
+.courseBottomButton {
+    width: 100%;
+    color: var(--dark-bg-text-color);
+    background-color: var(--primary-color);
+    border: 2px solid var(--secondary-color);
+    text-align: center;
+    text-decoration: none;
+    margin: 3px;
+}
+
+.courseBottomButton:hover {
+    color: var(--dark-bg-text-color);
+    text-decoration: none;
+}
+
+.courseBottomButtonRed {
+    width: 100%;
+    color: var(--dark-bg-text-color);
+    background-color: var(--danger-color);
+    border: 2px solid var(--danger-color);
+    text-align: center;
+    text-decoration: none;
+    margin: 3px;
+}
+.courseBottomButtonRed:hover {
+    color: var(--dark-bg-text-color);
+    text-decoration: none;
+}
+
+
+.addCourseButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 300px;
+    border: 2px solid var(--outline-color);
+    margin: 5px;
+}
+
+.addCourseButtonLink {
+    color: var(--light-bg-text-color);
+}
+
+.addCourseButtonLink:hover {
+    color: var(--light-bg-text-color);
+    text-decoration: none;
+}

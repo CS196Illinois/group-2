@@ -12,6 +12,7 @@ urlpatterns = [
     path('remove/<remCourse>/<redirectUrl>/', views.removeCourse, name= "removeCourse"),
     path('add/<addCourse>/', views.addCourse, name= "addCourse"),
     path('removeField/<field>/<course>/', views.removeField, name= "removeField"),
-    path('editCourse/<title>/', views.editCourse, name="editCourse"),
-    path('addField/<title>/', views.addField, name="addField"),
+    path('createCourse/', views.createCourse, name="createCourse"),
+    path('createInstructor/', views.createInstructor, name="createInstructor"),
+    path('edit_course/<title>/', views.editCourse, name="editCourse"),
 ]
