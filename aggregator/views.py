@@ -27,7 +27,6 @@ def index(request):
         'courseForm' : courseForm,
         'instructForm' : instructForm,
         'editing': '', #pk of the course that is being edited
-        'addingField': '', #pk of the field that is being edited
         'currentUser': request.user,
     }
 
@@ -141,6 +140,13 @@ def editCourse(request, coursePk):
     cPk = coursePk
     form.initial['instructor'] = course.instructor
     formFields = { }
+
+    newFieldForm = FieldAddForm(request.POST or None)
+    newFieldForm.fields['name'].initial = 'Insert Name'
+    newFieldForm.fields['hyperlink'].initial = "Link URL"
+    newFieldForm.fields['private'].initial = False
+
+
     for field in course.fields.all():
         formFields[field.name] = FieldEditForm(request.POST or None, prefix = field.name)
 
@@ -155,6 +161,21 @@ def editCourse(request, coursePk):
                 currentField.name = currentForm['name'].value()
                 currentField.hyperlink = currentForm['hyperlink'].value()
                 currentField.save()
+
+        if newFieldForm.is_valid():
+            isPrivate = newFieldForm.cleaned_data['private']
+            if isPrivate == None:
+                isPrivate = False
+            newField = CourseField(
+                name = newFieldForm.cleaned_data['name'],
+                hyperlink = newFieldForm.cleaned_data['hyperlink'],
+                private = isPrivate,
+                user = request.user,
+            )
+            newField.save()
+            course.fields.add(newField)
+            course.save()
+
         return redirect('/aggregator/')
     else:
         if request.user.is_authenticated:
@@ -180,8 +201,8 @@ def editCourse(request, coursePk):
             'editing': course,
             'form': form,
             'formField' : formFields,
-            'addingField': '',
-            'instructForm': instructForm,
+            'instructForm' : instructForm,
+            'newFieldForm' : newFieldForm,
         }
         return render(request, 'index.html', context)
 
