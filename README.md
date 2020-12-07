@@ -1,5 +1,5 @@
 # group-2
-Group Name: (AllSchool)[http://allschooladmin.pythonanywhere.com/aggregator/]
+Group Name: [AllSchool](http://allschooladmin.pythonanywhere.com/aggregator/)
 
 Team Members: jlee672, ecbrown2, larrylp2, mmaajed2, mylestm2, jacobah3
 
