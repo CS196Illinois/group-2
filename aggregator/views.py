@@ -128,7 +128,7 @@ def addCourse(request, pk):
 #removes a field from a certain course
 def removeField(request, fieldPk, pk):
     currentCourse = Course.objects.get(pk=pk)
-    currentField = CourseField.objects.get(pk=fieldPK)
+    currentField = CourseField.objects.get(pk=fieldPk)
     if currentField in currentCourse.fields.all():
         currentCourse.fields.remove(currentField)
         messages.success(request, 'Field Removed!')
