@@ -47,7 +47,7 @@ def createCourse(request):
         course.users.add(request.user)
         course.save()
         return redirect('/aggregator/editCourse/' + course.pk)
-        
+
     return redirect('/aggregator/')
 
 #handles a user logging out, redirects to homepage when finished
@@ -94,7 +94,6 @@ def searchPage(request):
                 if query.lower() in toCheck.lower():
                     filtered.append(course)
             courses = filtered
-    
     context = {
         'courses' : courses,
         'searchForm' : form
