@@ -45,7 +45,7 @@
                     {% if user in course.users.all %}
                         <a href="{% url 'removeCourse' course.pk '0' %}" class="courseBottomButtonRed">Remove</a>
                     {% else %}
-                        <a href="{% url 'addCourse' course.pk %}" class="courseBottomButton">Add Course</a>
+                        <a href="{% url 'addCourse' course.pk %}" class="courseButton">Add Course</a>
                     {% endif %}
                 </div>
             </div>
