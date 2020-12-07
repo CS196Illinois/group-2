@@ -4,11 +4,11 @@
     --base-color: white;
     --outline-color: lightgray;
 
-    --primary-color: rgb(38, 84, 236);
-    --secondary-color: rgb(57, 98, 235);
+    --primary-color: #7290f3;
+    --secondary-color: #a1b5f7;
     --highlight-color: rgb(163, 181, 238);
 
-    --danger-color: red;
+    --danger-color: #ff4d4d;
 
     /* may need to swap light bg and dark bg colors based on other settings */
     --light-bg-text-color: black;
