@@ -46,6 +46,8 @@ def createCourse(request):
         course.save()
         course.users.add(request.user)
         course.save()
+        return redirect('/aggregator/editCourse/' + course.pk)
+        
     return redirect('/aggregator/')
 
 #handles a user logging out, redirects to homepage when finished
