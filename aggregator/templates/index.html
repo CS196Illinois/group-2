@@ -4,12 +4,12 @@
 {% block content %}
 {% if messages %}
     {% for message in messages %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-      </div>
+    <div class="containerAlert">
+        <div class="alerts warning">
+            <span class="closebtn">&times;</span>
+            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        </div>
+    </div>
     {% endfor %}
 {% endif %}
 <div class="semesterClassesHeader">Your Courses</div>
@@ -163,4 +163,28 @@
         {% endif %}
     </div>
 </div>
+
+<!-- JavaScript for Custom Alerts -->
+<script>
+    var close = document.getElementsByClassName("closebtn");
+    var i;
+
+    // closing animation for alerts
+    for (i = 0; i < close.length; i++) {
+    close[i].onclick = function() {
+            var div = this.parentElement;
+            div.style.opacity = "0";
+            setTimeout(function(){ div.style.display = "none"; }, 600);
+        }
+    }
+
+    // make alerts automatically disappear
+    window.setTimeout(function() {
+        var alertEls = document.querySelectorAll(".alerts");
+        for (i = 0; i < alertEls.length; i++) {
+            alertEls[i].classList.add("alertsHidden");
+        }
+    }, 2000);
+</script>
+
 {% endblock %}

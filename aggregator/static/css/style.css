@@ -4,11 +4,11 @@
     --base-color: white;
     --outline-color: lightgray;
 
-    --primary-color: rgb(38, 84, 236);
-    --secondary-color: rgb(57, 98, 235);
+    --primary-color: #7290f3;
+    --secondary-color: #a1b5f7;
     --highlight-color: rgb(163, 181, 238);
 
-    --danger-color: red;
+    --danger-color: #ff4d4d;
 
     /* may need to swap light bg and dark bg colors based on other settings */
     --light-bg-text-color: black;
@@ -199,4 +199,64 @@
 .addCourseButtonLink:hover {
     color: var(--light-bg-text-color);
     text-decoration: none;
+}
+
+/* Custom Alert Styling */
+.containerAlert {
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+    width: 400px;
+    height: auto;
+}
+
+/* borders are 5 shades darker */
+.alerts {
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #999999;
+    border-left: 10px solid #595959;
+    color: white;
+    margin-bottom: 15px;
+    box-shadow: 0 0 5px 3px #ccc;
+
+    opacity: 1;
+    transition: all 0.7s ease-in;
+}
+
+.alerts.success {
+    background-color: #4CAF50;
+    border-color: #275929;
+}
+.alerts.info {
+    background-color: #2196F3;
+    border-color: #085391;
+}
+.alerts.warning {
+    background-color: #ff9800;
+    border-color: #804d00;
+}
+.alerts.danger {
+    background-color: #f44336;
+    border-color: #aa1409;
+}
+
+.alertsHidden {
+    opacity: 0;
+    transform: translateY(-100%);
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
 }
