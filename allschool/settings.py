@@ -27,7 +27,6 @@ SECRET_KEY = 'evnh&%6xcel4)-&xbvj@$1y58m8yn4q$7mx(4^19d$doyfp&r0'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'herokuapp.com',
     'localhost',
     '127.0.0.1',
 ]
@@ -54,7 +53,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google'
 ]
 
-SITE_ID = 4
+SITE_ID = 5
 LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
@@ -102,8 +101,12 @@ WSGI_APPLICATION = 'allschool.wsgi.application'
 ##note to self, revert before pushing to branch
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'allschool',
+        'USER': 'allschooladmin',
+        'PASSWORD': 'Dhftmznf1207!',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
