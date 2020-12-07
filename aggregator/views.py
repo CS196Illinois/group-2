@@ -126,7 +126,7 @@ def addCourse(request, pk):
     return redirect('/aggregator/search')
 
 #removes a field from a certain course
-def removeField(request, fieldPK, pk):
+def removeField(request, fieldPk, pk):
     currentCourse = Course.objects.get(pk=pk)
     currentField = CourseField.objects.get(pk=fieldPK)
     if currentField in currentCourse.fields.all():
