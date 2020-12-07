@@ -141,6 +141,9 @@ def editCourse(request, coursePk):
     cPk = coursePk
     form.initial['instructor'] = course.instructor
     formFields = { }
+
+
+    
     for field in course.fields.all():
         formFields[field.name] = FieldEditForm(request.POST or None, prefix = field.name)
 
