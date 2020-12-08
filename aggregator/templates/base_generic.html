@@ -20,7 +20,8 @@
   <!--Custom CSS (Emi)-->
   <link rel="stylesheet" href="{% static 'css/emimain.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
+
 </head>
 <body>
   {% load socialaccount %}
@@ -54,6 +55,11 @@
    {% block content %}
    {% endblock %}
   </div>
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted text-center">Copyright &copy; 2020 SeriousCereals. All Rights Reserved</span>
+    </div>
+  </footer>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
