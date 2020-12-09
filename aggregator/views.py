@@ -27,7 +27,6 @@ def index(request):
         'courseForm' : courseForm,
         'instructForm' : instructForm,
         'editing': '', #pk of the course that is being edited
-        'addingField': '', #pk of the field that is being edited
         'currentUser': request.user,
     }
 
@@ -47,6 +46,8 @@ def createCourse(request):
         course.save()
         course.users.add(request.user)
         course.save()
+        return redirect('/aggregator/editCourse/' + course.pk)
+
     return redirect('/aggregator/')
 
 #handles a user logging out, redirects to homepage when finished
@@ -93,7 +94,6 @@ def searchPage(request):
                 if query.lower() in toCheck.lower():
                     filtered.append(course)
             courses = filtered
-    
     context = {
         'courses' : courses,
         'searchForm' : form
@@ -142,8 +142,11 @@ def editCourse(request, coursePk):
     form.initial['instructor'] = course.instructor
     formFields = { }
 
+    newFieldForm = FieldAddForm(request.POST or None)
+    newFieldForm.fields['name'].initial = 'Insert Name'
+    newFieldForm.fields['hyperlink'].initial = "Link URL"
+    newFieldForm.fields['private'].initial = False
 
-    
     for field in course.fields.all():
         formFields[field.name] = FieldEditForm(request.POST or None, prefix = field.name)
 
@@ -158,6 +161,21 @@ def editCourse(request, coursePk):
                 currentField.name = currentForm['name'].value()
                 currentField.hyperlink = currentForm['hyperlink'].value()
                 currentField.save()
+
+        if newFieldForm.is_valid():
+            isPrivate = newFieldForm.cleaned_data['private']
+            if isPrivate == None:
+                isPrivate = False
+            newField = CourseField(
+                name = newFieldForm.cleaned_data['name'],
+                hyperlink = newFieldForm.cleaned_data['hyperlink'],
+                private = isPrivate,
+                user = request.user,
+            )
+            newField.save()
+            course.fields.add(newField)
+            course.save()
+
         return redirect('/aggregator/')
     else:
         if request.user.is_authenticated:
@@ -183,8 +201,8 @@ def editCourse(request, coursePk):
             'editing': course,
             'form': form,
             'formField' : formFields,
-            'addingField': '',
-            'instructForm': instructForm,
+            'instructForm' : instructForm,
+            'newFieldForm' : newFieldForm,
         }
         return render(request, 'index.html', context)
 
