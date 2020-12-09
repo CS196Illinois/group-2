@@ -46,7 +46,7 @@ def createCourse(request):
         course.save()
         course.users.add(request.user)
         course.save()
-        return redirect('/aggregator/editCourse/' + course.pk)
+        return redirect('/aggregator/editCourse/' + str(course.pk))
 
     return redirect('/aggregator/')
 
