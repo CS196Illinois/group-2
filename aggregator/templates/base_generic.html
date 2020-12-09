@@ -25,10 +25,11 @@
 </head>
 <body>
   {% load socialaccount %}
-  <nav class="navbar navbar-light navbar-expand-lg" role="navigation">
+  <div class="backgroundBarBlue">
+  <nav class="navbar navbar-dark navbar-expand-lg" role="navigation">
     <div class="navbar-header">
       <a href="{% url 'index' %}" class="navbar-brand">
-        <img src="{% static 'allschool-logo.png' %}" alt="AllSchool">AllSchool
+        <img src="{% static 'allschool-logo.png' %}" alt="AllSchool"><h9 style="color: white;"> AllSchool</h5>
       </a>
     </div> <!--end of navbar-brand-->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,11 +40,11 @@
 
       </ul>
       <ul class="nav navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}"><h9 style="color: white;">About Us</h9></a></li>
         {% if user.is_authenticated %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Browse Courses</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">My Courses</a></li>
-          <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log Out</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'search' %}"><h9 style="color: white;">Browse Courses</h9></a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><h9 style="color: white;">My Courses</h9></a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><h9 style="color: white;">Log Out</h9></a></li>
           <li class="nav-item"><img class="nav-link rounded-circle" style="max-width:30%;" src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Google Profile Picture"></li>
         {% else %}
           <li class="nav-item"><a class="nav-link" href="{% provider_login_url 'google' %}">Log In</a></li>
@@ -51,6 +52,7 @@
       </ul>
     </div>
   </nav>
+  </div>
   <div class="container-fluid">
    {% block content %}
    {% endblock %}

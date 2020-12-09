@@ -8,12 +8,13 @@
     --secondary-color: #a1b5f7;
     --highlight-color: rgb(163, 181, 238);
 
-    --danger-color: #ff4d4d;
+    --danger-color: #E0314B;
 
     /* may need to swap light bg and dark bg colors based on other settings */
     --light-bg-text-color: black;
     --light-bg-secondary-text-color: gray;
     --dark-bg-text-color: white;
+    --hyperlink-blue: rgb(0, 74, 232);
 }
 
 body {
@@ -144,14 +145,14 @@ body {
 .courseField {
     font-size: 125%;
     text-decoration: none;
-    color: var(--light-bg-text-color);
+    color: var(--hyperlink-blue);
     margin-right: 3px;
 }
 
 .courseFieldUrl {
     font-size: 125%;
     text-decoration: none;
-    color: var(--light-bg-secondary-text-color);
+    color: var(--hyperlink-blue);
 }
 
 .splitter {
