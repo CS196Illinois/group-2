@@ -126,9 +126,9 @@ def addCourse(request, pk):
     return redirect('/aggregator/search')
 
 #removes a field from a certain course
-def removeField(request, fieldPK, pk):
+def removeField(request, fieldPk, pk):
     currentCourse = Course.objects.get(pk=pk)
-    currentField = CourseField.objects.get(pk=fieldPK)
+    currentField = CourseField.objects.get(pk=fieldPk)
     if currentField in currentCourse.fields.all():
         currentCourse.fields.remove(currentField)
         messages.success(request, 'Field Removed!')
@@ -146,7 +146,6 @@ def editCourse(request, coursePk):
     newFieldForm.fields['name'].initial = 'Insert Name'
     newFieldForm.fields['hyperlink'].initial = "Link URL"
     newFieldForm.fields['private'].initial = False
-
 
     for field in course.fields.all():
         formFields[field.name] = FieldEditForm(request.POST or None, prefix = field.name)
