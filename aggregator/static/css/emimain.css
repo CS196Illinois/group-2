@@ -40,10 +40,6 @@ html, body {
 .backgroundBarBlue {
    background-color: rgb(56, 109, 216)
 }
-.hyperlinkBlue {
-    /* intense blue */
-    color: rgb(0, 74, 232)
-}
 
 /* Semester Sections */
 .semesterClassesHeader {
