@@ -143,15 +143,15 @@ html, body {
 
 .linkList a:link {
     text-decoration: none;
-    color: rgb(180, 180, 180);
+    color: rgb(0, 101, 232);
 }
 .linkList a:visited {
     text-decoration: none;
-    color: rgb(180, 180, 180);
+    color: rgb(136, 83, 237);
 }
 .linkList a:hover {
     text-decoration: none;
-    color: mediumslateblue;
+    color: rgb(0, 62, 232);
 }
 .linkList a:active {
     text-decoration: none;
