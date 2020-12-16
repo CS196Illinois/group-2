@@ -12,7 +12,7 @@
     </div>
     {% endfor %}
 {% endif %}
-<div class="semesterClassesHeader">Your Courses</div>
+<div class="semesterClassesHeader">My Courses</div>
 <br><br>
 <div class="semesterClassesContainer">
         {% if authenticated %}
@@ -87,12 +87,20 @@
                             </div>
                             <div class="courseBottom">
                                 {% if editing == '' %}
-                                    <a href="{% url 'editCourse' course.pk %}" class="courseButton">Edit</a>
+
+                                    <a href="{% url 'editCourse' course.pk %}" class="courseButton"><div class="backgroundMidBlue">Edit</div></a>
+
                                 {% elif course == editing %}
                                     <input type="submit" class="courseButton" value="Save"></input>
                                 {% endif %}
                                 <!--The 'More Info' should be removed and replaced with 'Add Link' -->
                                 <!-- <a href="{% url 'loadDetails' course %}" class="courseBottomButton">More Info</a> -->
+
+                                {% if addingField == '' %}
+                                    <a href="{% url 'addField' course.pk %}" class="courseButton"><div class="backgroundMidBlue">Add Link</div></a>
+                                {% elif course == addingField %}
+                                    <input type="submit" class="courseButton" value="Save"></input>
+                                {% endif %}
 
                                 <a href="{% url 'removeCourse' course.pk '1' %}" class="courseBottomButtonRed">Remove</a>
                             </div>

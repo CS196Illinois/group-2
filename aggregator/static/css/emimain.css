@@ -22,6 +22,25 @@ html, body {
     height: 50px;
 }
 
+/* Main Site Colors */
+.backgroundNavy {
+    background-color: rgb(3, 0, 78)
+}
+.backgroundDarkBlue {
+    background-color: rgb(0, 43, 174)
+}
+.backgroundTeal {
+    background-color: rgb(0, 198, 188)
+}
+.backgroundMidBlue {
+    /* Use for Edit/Add Link buttons */
+    
+    background-color: rgb(43, 113, 255)
+}
+.backgroundBarBlue {
+   background-color: rgb(56, 109, 216)
+}
+
 /* Semester Sections */
 .semesterClassesHeader {
     display: flex;
@@ -34,7 +53,7 @@ html, body {
     padding: 15px;
 
     /* color scheme */
-    background-color: rgb(180, 180, 180);
+    background-color: rgb(0, 43, 174)
     color: white;
 
     /* text settings */
@@ -120,15 +139,15 @@ html, body {
 
 .linkList a:link {
     text-decoration: none;
-    color: rgb(180, 180, 180);
+    color: rgb(0, 101, 232);
 }
 .linkList a:visited {
     text-decoration: none;
-    color: rgb(180, 180, 180);
+    color: rgb(136, 83, 237);
 }
 .linkList a:hover {
     text-decoration: none;
-    color: mediumslateblue;
+    color: rgb(0, 62, 232);
 }
 .linkList a:active {
     text-decoration: none;
