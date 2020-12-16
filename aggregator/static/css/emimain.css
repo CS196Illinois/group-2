@@ -2,6 +2,7 @@
 html, body {
     margin: 0px;
     font-family: 'Roboto', sans-serif;
+    position: relative;
 }
 
 /* Site Header Bar */
@@ -53,8 +54,8 @@ html, body {
     padding: 15px;
 
     /* color scheme */
-    background-color: rgb(0, 43, 174)
-    color: white;
+    /* background-color: rgb(0, 43, 174);
+    color: white; */
 
     /* text settings */
     font-weight: bold;
