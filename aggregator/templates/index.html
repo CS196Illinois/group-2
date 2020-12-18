@@ -23,10 +23,6 @@
                             <form method="POST" action="{% url 'editCourse' course.pk %}">
                             {% csrf_token %}
                         {% endif %}
-                        {% if course == addingField %}
-                            <form method="POST" action="{% url 'addField' course.pk %}">
-                            {% csrf_token %}
-                        {% endif %}
                         <div class="course">
                             <div class="courseMid">
                                 <div class="courseTop">
@@ -74,16 +70,16 @@
                                         {% endif %}
                                     {% endif %}
                                 {% endfor %}
-                                {% if course == addingField %}
+                                {% if course == editing %}
                                     <div class="courseFieldEdit">
                                         <div class="courseFieldOverflow">
                                             <div class="courseFieldEditRow">
                                                 <a class="addSymbol">
                                                     &plus;
                                                 </a>
-                                                {{formField.name}}
-                                                {{formField.hyperlink}}
-                                                Private? {{formField.private}}
+                                                {{newFieldForm.name}}
+                                                {{newFieldForm.hyperlink}}
+                                                Private? {{newFieldForm.private}}
                                             </div>
                                         </div>
                                     </div>
@@ -91,11 +87,9 @@
                             </div>
                             <div class="courseBottom">
                                 {% if editing == '' %}
-                                    {% if course == addingField %}
-                                        <a href="{% url 'index' %}" class="courseButton">Cancel</a>
-                                    {% else %}
-                                        <a href="{% url 'editCourse' course.pk %}" class="courseButton"><div class="backgroundMidBlue">Edit</div></a>
-                                    {% endif %}
+
+                                    <a href="{% url 'editCourse' course.pk %}" class="courseButton"><div class="backgroundMidBlue">Edit</div></a>
+
                                 {% elif course == editing %}
                                     <input type="submit" class="courseButton" value="Save"></input>
                                 {% endif %}
@@ -107,15 +101,14 @@
                                 {% elif course == addingField %}
                                     <input type="submit" class="courseButton" value="Save"></input>
                                 {% endif %}
+
                                 <a href="{% url 'removeCourse' course.pk '1' %}" class="courseBottomButtonRed">Remove</a>
                             </div>
                         </div>
                         {% if course == editing %}
                             </form>
                         {% endif %}
-                        {% if course == addingField %}
-                            </form>
-                        {% endif %}
+
                     {% endfor %}
                 {% endif %}
                 <a class="addCourseButtonLink" href="/aggregator/createCourse/">
