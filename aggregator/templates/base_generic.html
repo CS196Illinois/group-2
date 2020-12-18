@@ -23,7 +23,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
 
 </head>
-<body>
+<body style="min-height:100%; display: flex; flex-direction: column;">
   {% load socialaccount %}
   <div class="backgroundBarBlue">
   <nav class="navbar navbar-dark navbar-expand-lg" role="navigation">
@@ -53,16 +53,23 @@
     </div>
   </nav>
   </div>
+
   <div class="container-fluid">
    {% block content %}
    {% endblock %}
   </div>
-  <footer class="footer">
-    <div class="container">
-      <span class="text-muted text-center">Copyright &copy; 2020 SeriousCereals. All Rights Reserved</span>
-    </div>
-  </footer>
+
+  <!-- Blank div to add space before footer -->
+  <div style="flex-grow:1"></div>
+
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
+
+<footer>
+  <div class="customFooter">
+    Copyright &copy; 2020 SeriousCereals. All Rights Reserved
+</div>
+</footer>
+
 </html>
