@@ -17,6 +17,8 @@
     --light-bg-secondary-text-color: gray;
     --dark-bg-text-color: white;
     --hyperlink-blue: rgb(0, 74, 232);
+    --course-button-bg-blue: rgb(43, 113, 255);
+
 }
 
 body {
@@ -134,9 +136,9 @@ body {
 
 .addSymbol {
     height: 1.5em;
-    background-color: var(--primary-color);
+    background-color: var(--course-button-bg-blue);
     margin-right: 3px;
-    color: var(--light-bg-text-color);
+    color: var(--dark-bg-text-color);
 }
 
 .courseFieldEditRow {
@@ -171,11 +173,22 @@ body {
 .courseButton {
     width: 100%;
     color: var(--dark-bg-text-color);
-    background-color: var(--primary-color);
+    background-color: var(--course-button-bg-blue);
     border: 2px solid var(--secondary-color);
     text-align: center;
     text-decoration: none;
     margin: 3px;
+}
+
+.courseButtonAddLink {
+    width: 50%;
+    color: var(--dark-bg-text-color);
+    background-color: var(--course-button-bg-blue);
+    border: 2px solid var(--secondary-color);
+    text-align: center;
+    text-decoration: none;
+    margin-top: 3px;
+    margin-left: 50px;
 }
 
 .courseButton:hover {
